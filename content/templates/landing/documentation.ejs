@@ -242,15 +242,6 @@
                                 <td>Ban a member from the server.</td>
                             </tr>
                             <tr>
-                                <td>give</td>
-                                <td></td>
-                                <td><ul>
-                                    <li>$give <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
-                                </ul></td>
-                                <td>0</td>
-                                <td>Receive a role off of the public roles list.</td>
-                            </tr>
-                            <tr>
                                 <td>kick</td>
                                 <td></td>
                                 <td><ul>
@@ -344,15 +335,6 @@
                                 </ul></td>
                                 <td>2</td>
                                 <td>Softban a member from the server.</td>
-                            </tr>
-                            <tr>
-                                <td>take</td>
-                                <td></td>
-                                <td><ul>
-                                    <li>$take <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
-                                </ul></td>
-                                <td>0</td>
-                                <td>Remove a role from you off of the public roles list.</td>
                             </tr>
                             <tr>
                                 <td>unban</td>
@@ -506,15 +488,108 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>command</td>
+                                <td>commands</td>
                                 <td><ul>
-                                    <li>alias</li>
+                                    <li>cmds</li>
                                 </ul></td>
                                 <td><ul>
-                                    <li>$command</li>
-                                    <li>$command <code id="input">&lt;input&gt;</code></li>
+                                    <li>$commands</li>
                                 </ul></td>
-                                <td>description</td>
+                                <td>Receive a list of TypicalBot's commands.</td>
+                            </tr>
+                            <tr>
+                                <td>documentation</td>
+                                <td><ul>
+                                    <li>docs</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$documentation</li>
+                                </ul></td>
+                                <td>Grab a link to TypicalBot's documentation.</td>
+                            </tr>
+                            <tr>
+                                <td>donate</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$donate</li>
+                                </ul></td>
+                                <td>Donate to the cause of TypicalBot.</td>
+                            </tr>
+                            <tr>
+                                <td>help</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$help</li>
+                                    <li>$help <code id="input">&lt;command-name&gt;</code></li>
+                                </ul></td>
+                                <td>Get general information about TypicalBot or help with a specific command.</td>
+                            </tr>
+                            <tr>
+                                <td>information</td>
+                                <td><ul>
+                                    <li>info</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$information</li>
+                                </ul></td>
+                                <td>Get general information about TypicalBot.</td>
+                            </tr>
+                            <tr>
+                                <td>invite</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$invite</li>
+                                </ul></td>
+                                <td>Receive the OAuth2 authorization link for TypicalBot.</td>
+                            </tr>
+                            <tr>
+                                <td>ping</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$ping</li>
+                                </ul></td>
+                                <td>A check to see if TypicalBot is able to respond.</td>
+                            </tr>
+                            <tr>
+                                <td>server</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$server</li>
+                                </ul></td>
+                                <td>Receive an invite to the TypicalBot Lounge.</td>
+                            </tr>
+                            <tr>
+                                <td>servers</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$servers</li>
+                                    <li>$servers <code id="input">&lt;page-number&gt;</code></li>
+                                </ul></td>
+                                <td>Get a list of servers of the current shard.</td>
+                            </tr>
+                            <tr>
+                                <td>stats</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$stats</li>
+                                </ul></td>
+                                <td>Get TypicalBot's current statistics.</td>
+                            </tr>
+                            <tr>
+                                <td>subscribe</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$subscribe</li>
+                                </ul></td>
+                                <td>Subscribe to TypicalBot's announcements. Only valid in TypicalBot Lounge.</td>
+                            </tr>
+                            <tr>
+                                <td>unsubscribe</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$unsubscribe</li>
+                                </ul></td>
+                                <td>Unsubscribe from TypicalBot's announcements. Only valid in TypicalBot Lounge.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -534,15 +609,20 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>command</td>
+                                <td>logs</td>
+                                <td></td>
                                 <td><ul>
-                                    <li>alias</li>
+                                    <li>$logs</li>
                                 </ul></td>
+                                <td>Sends a help embed in regards to logs.</td>
+                            </tr>
+                            <tr>
+                                <td>perms</td>
+                                <td></td>
                                 <td><ul>
-                                    <li>$command</li>
-                                    <li>$command <code id="input">&lt;input&gt;</code></li>
+                                    <li>$perms</li>
                                 </ul></td>
-                                <td>description</td>
+                                <td>Sends a help embed in regards to permissions.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -555,22 +635,59 @@
                         <thead>
                             <tr>
                                 <th width="10%">Name</th>
-                                <th width="10%">Aliases</th>
-                                <th width="30%">Usage</th>
                                 <th width="50%">Description</th>
+                                <th width="30%">Usage</th>
+                                <th width="10%">Permission</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>command</td>
+                                <td>roles public add</td>
+                                <td>Add a role to the public roles list users can use <code id="input">$give</code> or <code id="input">$take</code> with.</td>
                                 <td><ul>
-                                    <li>alias</li>
+                                    <li>$roles public add <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
                                 </ul></td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>roles public remove</td>
+                                <td>Remove a role from the public roles list users can use <code id="input">$give</code> or <code id="input">$take</code> with.</td>
                                 <td><ul>
-                                    <li>$command</li>
-                                    <li>$command <code id="input">&lt;input&gt;</code></li>
+                                    <li>$roles public remove <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
                                 </ul></td>
-                                <td>description</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>roles public clear</td>
+                                <td>Clear all roles from the public roles list users can use <code id="input">$give</code> or <code id="input">$take</code> with.</td>
+                                <td><ul>
+                                    <li>$roles public clear</li>
+                                </ul></td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>roles public list</td>
+                                <td>List all public roles list users can use <code id="input">$give</code> or <code id="input">$take</code> with.</td>
+                                <td><ul>
+                                    <li>$roles public list</li>
+                                </ul></td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>give</td>
+                                <td>Receive a role off of the public roles list.</td>
+                                <td><ul>
+                                    <li>$give <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
+                                </ul></td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>take</td>
+                                <td>Remove a role from you off of the public roles list.</td>
+                                <td><ul>
+                                    <li>$take <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
+                                </ul></td>
+                                <td>0</td>
                             </tr>
                         </tbody>
                     </table>
