@@ -1,0 +1,92 @@
+body {
+    background-color: #dfdfdf;
+}
+
+.navbar {
+    background-color: #00adff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+nav .navbar-brand {
+    font-weight: bold;
+    font-size: 20px !important;
+}
+.navbar-collapse {
+    flex-basis: auto;
+}
+nav .navbar-brand img {
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    margin-right: 15px;
+}
+nav a {
+    color: white !important;
+    line-height: 30px !important;
+}
+nav ul {
+    display: inline-block !important;
+}
+nav ul li {
+    display: inline-block !important;
+    text-align: center;
+}
+nav ul .nav-link {
+    padding: 5px 10px !important;
+    border-radius: 4px;
+    transition: background 0.2s linear !important;
+}
+nav ul .nav-link:hover {
+    background-color: #1592cd;
+}
+nav ul li img {
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+}
+nav ul .dropdown-menu .dropdown-item {
+    padding-left: 10px;
+    font-size: 16px;
+    color: black !important;
+}
+
+.content {
+    margin-top: 10px;
+}
+
+.jumbotron {
+    background-color: white;
+}
+
+.docs {
+    border-radius: .3rem;
+    max-width: 100%;
+    width: auto;
+    padding: 10px;
+    margin-left: 200px;
+    margin-right: 200px;
+    background-color: white;
+}
+span[id="right"] li {
+    display: inline-block;
+}
+code[id="input"] {
+    color: #00adff;
+    font-style: italic;
+}
+.docs .nav-link {
+    color: #00adff;
+}
+.docs .tab-note {
+    font-size: 14px;
+    color: red;
+    padding: 6px 6px 6px 10px;
+}
+.docs tr ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.docs .fa-asterisk {
+    color: red;
+}

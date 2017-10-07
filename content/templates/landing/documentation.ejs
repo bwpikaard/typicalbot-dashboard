@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <%- include("../pieces/head.ejs") %>
+        <title>Documentation – TypicalBot</title>
+    </head>
+    <body>
+        <%- include("../pieces/navigation.ejs") %>
+
+        <div class="content container docs">
+            <h2 style="text-align: center;" id="ignoretheme">TypicalBot Documentation</h2>
+            <hr class="my-2"><br>
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a data-toggle="tab" class="nav-link active" href="#fun">Fun</a></li>
+                <li class="nav-item"><a data-toggle="tab" class="nav-link" href="#images">Images</a></li>
+                <li class="nav-item"><a data-toggle="tab" class="nav-link" href="#moderation">Moderation</a></li>
+                <li class="nav-item"><a data-toggle="tab" class="nav-link" href="#utility">Utility</a></li>
+                <li class="nav-item"><a data-toggle="tab" class="nav-link" href="#typicalbot">TypicalBot</a></li>
+                <li class="nav-item"><a data-toggle="tab" class="nav-link" href="#help">Help</a></li>
+                <span class="ml-auto" id="right">
+                    <li class="nav-item"><a data-toggle="tab" class="nav-link" href="#public-roles">Public Roles</a></li>
+                    <li class="nav-item"><a data-toggle="tab" class="nav-link" href="#settings">Settings</a></li>
+                </span>
+            </ul>
+            <div class="tab-content">
+
+                <!-- TABLE:FUN -->
+
+                <div class="tab-pane show active fade in" id="fun">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8ball</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$8ball <code id="input">&lt;question&gt;</code></li>
+                                </ul></td>
+                                <td>Ask the magic 8ball a question.</td>
+                            </tr>
+                            <tr>
+                                <td>dice</td>
+                                <td><ul>
+                                    <li>die</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$dice</li>
+                                    <li>$dice <code id="input">&lt;number-of-sides&gt;</code></li>
+                                </ul></td>
+                                <td>Roll a n-sided die.</td>
+                            </tr>
+                            <tr>
+                                <td>hug</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$hug <code id="input">&lt;@user&gt;</code></li>
+                                </ul></td>
+                                <td>'Hug' another user in the server.</td>
+                            </tr>
+                            <tr>
+                                <td>joke</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$joke</li>
+                                </ul></td>
+                                <td>Gives you a random joke.</td>
+                            </tr>
+                            <tr>
+                                <td>punch</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$punch <code id="input">&lt;@user&gt;</code></li>
+                                </ul></td>
+                                <td>'Punch' another user in the server.</td>
+                            </tr>
+                            <tr>
+                                <td>quote</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$quote</li>
+                                </ul></td>
+                                <td>Gives you a random quote.</td>
+                            </tr>
+                            <tr>
+                                <td>shoot</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$shoot <code id="input">&lt;@user&gt;</code></li>
+                                </ul></td>
+                                <td>'Shoot' another user in the server.</td>
+                            </tr>
+                            <tr>
+                                <td>slap</td>
+                                <td><ul>
+                                    <li>Aliases</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$slap <code id="input">&lt;@user&gt;</code></li>
+                                </ul></td>
+                                <td>'Slap' another user in the server.</td>
+                            </tr>
+                            <tr>
+                                <td>stab</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$stab <code id="input">&lt;@user&gt;</code></li>
+                                </ul></td>
+                                <td>'Stab' another user in the server.</td>
+                            </tr>
+                            <tr>
+                                <td>urban</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$urban <code id="input">&lt;query&gt;</code></li>
+                                </ul></td>
+                                <td>Grabs the definition from Urban Dictionary for the specified word.</td>
+                            </tr>
+                            <tr>
+                                <td>yomama</td>
+                                <td><ul>
+                                    <li>yomomma</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li><code id="input">&lt;input&gt;</code></li>
+                                </ul></td>
+                                <td>Gives you a random yomama joke.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLE:IMAGES -->
+
+
+                <div class="tab-pane fade in" id="images">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>bunny</td>
+                                <td><ul>
+                                    <li>rabbit</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$bunny</li>
+                                </ul></td>
+                                <td>Gives you a random bunny picture.</td>
+                            </tr>
+                            <tr>
+                                <td>cat</td>
+                                <td><ul>
+                                    <li>kitty</li>
+                                    <li>kitten</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$cat</li>
+                                </ul></td>
+                                <td>Gives you a random cat picture.</td>
+                            </tr>
+                            <tr>
+                                <td>dog</td>
+                                <td><ul>
+                                    <li>puppy</li>
+                                    <li>doggy</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$dog</li>
+                                </ul></td>
+                                <td>Gives you a random dog picture.</td>
+                            </tr>
+                            <tr>
+                                <td>tiger</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$tiger</li>
+                                </ul></td>
+                                <td>Gives you a random tiger picture.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLE:MODERATION -->
+
+                <div class="tab-pane fade in" id="moderation">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr><td class="tab-note" colspan=4>Usage examples with <i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i> show elevated permissions are required.</td></tr>
+                            <tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="10%">Permission</th>
+                                <th width="40%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>adcheck</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$adcheck</li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Check if any members of a server have a server invite in their playing status.</td>
+                            </tr>
+                            <tr>
+                                <td>announce</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$announce <code id="input">&lt;content&gt;</code></li>
+                                    <li>$announce -e <code id="input">&lt;content&gt;</code></li>
+                                </ul></td>
+                                <td>3</td>
+                                <td>Send an announcement to the announcements channel. Use the flag '-e' before your content to make the message an embed. If the announcements mention role is set, it will always use it.</td>
+                            </tr>
+                            <tr>
+                                <td>ban</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$ban <code id="input">&lt;@user&gt;</code></li>
+                                    <li>$ban <code id="input">&lt;@user&gt;</code> <code id="input">&lt;days-to-purge&gt;</code></li>
+                                    <li>$ban <code id="input">&lt;@user&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                    <li>$ban <code id="input">&lt;@user&gt;</code> <code id="input">&lt;days-to-purge&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Ban a member from the server.</td>
+                            </tr>
+                            <tr>
+                                <td>give</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$give <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
+                                </ul></td>
+                                <td>0</td>
+                                <td>Receive a role off of the public roles list.</td>
+                            </tr>
+                            <tr>
+                                <td>kick</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$kick <code id="input">&lt;@user&gt;</code></li>
+                                    <li>$kick <code id="input">&lt;@user&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Kick a member from the server.</td>
+                            </tr>
+                            <tr>
+                                <td>purge</td>
+                                <td><ul>
+                                    <li>prune</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$purge <code id="input">&lt;message-count&gt;</code></li>
+                                    <li>$purge <code id="input">&lt;@user&gt;</code> <code id="input">&lt;message-count&gt;</code></li>
+                                    <li>$purge <code id="input">&lt;#channel&gt;</code> <code id="input">&lt;message-count&gt;</code></li>
+                                    <li>$purge <code id="input">&lt;@role&gt;</code> <code id="input">&lt;message-count&gt;</code></li>
+                                    <li>$purge me <code id="input">&lt;message-count&gt;</code></li>
+                                    <li>$purge you <code id="input">&lt;message-count&gt;</code></li>
+                                    <li>$purge bots <code id="input">&lt;message-count&gt;</code></li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Purge messages in a channel.</td>
+                            </tr>
+                            <tr>
+                                <td>reason</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$reason latest <code id="input">&lt;reason&gt;</code></li>
+                                    <li>$command <code id="input">&lt;case-id&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Change or set a reason for a case in moderation logs.</td>
+                            </tr>
+                            <tr>
+                                <td>roles</td>
+                                <td><ul>
+                                    <li>role</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$roles help</li>
+                                    <li>$roles list</li>
+                                    <li>$roles info[rmation] <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
+                                    <li>$roles info[rmation] members <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
+                                    <li>$roles give <code id="input">&lt;@user&gt;</code> <code id="input">&lt;role-name|role-id|role-mention&gt;</code><i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i></li>
+                                    <li>$roles take <code id="input">&lt;@user&gt;</code> <code id="input">&lt;role-name|role-id|role-mention&gt;</code><i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i></li>
+                                    <li>$roles public list</li>
+                                    <li>$roles public add <code id="input">&lt;role-name|role-id|role-mention&gt;</code><i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i></li>
+                                    <li>$roles public remove <code id="input">&lt;role-name|role-id|role-mention&gt;</code><i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i></li>
+                                    <li>$roles public clear<i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i></li>
+                                </ul></td>
+                                <td>0</td>
+                                <td>Manage or list the server's roles or public roles.</td>
+                            </tr>
+                            <tr>
+                                <td>say</td>
+                                <td><ul>
+                                    <li>speak</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$say <code id="input">&lt;content&gt;</code></li>
+                                    <li>$say <code id="input">&lt;#channel&gt;</code> <code id="input">&lt;content&gt;</code></li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Makes the bot send a message with the content used.</td>
+                            </tr>
+                            <tr>
+                                <td>settings</td>
+                                <td><ul>
+                                    <li>set</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$settings list</li>
+                                    <li>$settings list <code id="input">&lt;page-number&gt;</code></li>
+                                    <li>$settings view <code id="input">&lt;setting&gt;</code></li>
+                                    <li>$settings edit <code id="input">&lt;setting&gt;</code> <code id="input">&lt;value&gt;</code><i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i></li>
+                                </ul></td>
+                                <td>0</td>
+                                <td>View or customize your server's settings and enable/disable specific features.</td>
+                            </tr>
+                            <tr>
+                                <td>softban</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$softban <code id="input">&lt;@user&gt;</code></li>
+                                    <li>$softban <code id="input">&lt;@user&gt;</code> <code id="input">&lt;days-to-purge&gt;</code></li>
+                                    <li>$softban <code id="input">&lt;@user&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                    <li>$softban <code id="input">&lt;@user&gt;</code> <code id="input">&lt;days-to-purge&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Softban a member from the server.</td>
+                            </tr>
+                            <tr>
+                                <td>take</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$take <code id="input">&lt;role-name|role-id|role-mention&gt;</code></li>
+                                </ul></td>
+                                <td>0</td>
+                                <td>Remove a role from you off of the public roles list.</td>
+                            </tr>
+                            <tr>
+                                <td>unban</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$unban <code id="input">&lt;@user&gt;</code></li>
+                                    <li>$unban <code id="input">&lt;@user&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Unban a user from the server.</td>
+                            </tr>
+                            <tr>
+                                <td>warn</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$warn <code id="input">&lt;@user&gt;</code></li>
+                                    <li>$warn <code id="input">&lt;@user&gt;</code> <code id="input">&lt;reason&gt;</code></li>
+                                </ul></td>
+                                </ul></td>
+                                <td>2</td>
+                                <td>Warn a member in the server.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLE:UTILITY -->
+
+                <div class="tab-pane fade in" id="utility">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <tr><td class="tab-note" colspan=4>Usage examples with <i data-toggle="modal" data-target="#permission-3" class="fa fa-asterisk"></i> show elevated permissions are required.</td></tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>bots</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$bots</li>
+                                    <li>$bots <code id="input">&lt;page-number&gt;</code></li>
+                                </ul></td>
+                                <td>Gives a list of bots from Carbonitex sorted by server count.</td>
+                            </tr>
+                            <tr>
+                                <td>discriminator</td>
+                                <td><ul>
+                                    <li>discrim</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$discriminator</li>
+                                    <li>$discriminator <code id="input">&lt;discriminator&gt;</code></li>
+                                </ul></td>
+                                <td>Provides a list of all uers with a given discriminator.</td>
+                            </tr>
+                            <tr>
+                                <td>hex</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$hex random</li>
+                                    <li>$hex <code id="input">&lt;hex-code&gt;</code></li>
+                                </ul></td>
+                                <td>Sends a preview of a hex color.</td>
+                            </tr>
+                            <tr>
+                                <td>mylevel</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$mylevel</li>
+                                </ul></td>
+                                <td>Shows you your permission level specific to the server requested it.</td>
+                            </tr>
+                            <tr>
+                                <td>nickname</td>
+                                <td><ul>
+                                    <li>nick</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$nickname</li>
+                                    <li>$nickname reset</li>
+                                    <li>$nickname <code id="input">&lt;desired-nickname&gt;</code></li>
+                                    <li>$nickname <code id="input">&lt;@user&gt;</code><i data-toggle="modal" data-target="#permission-2" class="fa fa-asterisk"></i></li>
+                                    <li>$nickname <code id="input">&lt;@user&gt;</code> reset<i data-toggle="modal" data-target="#permission-2" class="fa fa-asterisk"></i></li>
+                                    <li>$nickname <code id="input">&lt;@user&gt;</code> <code id="input">&lt;desired-nickname&gt;</code><i data-toggle="modal" data-target="#permission-2" class="fa fa-asterisk"></i></li>
+                                </ul></td>
+                                <td>Change or clear either your nickname or another user's nickname.</td>
+                            </tr>
+                            <tr>
+                                <td>randomuser</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$randomuser</li>
+                                </ul></td>
+                                <td>Selects a random member in the server.</td>
+                            </tr>
+                            <tr>
+                                <td>search</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$search <code id="input">&lt;query&gt;</code></li>
+                                    <li>$search <code id="input">&lt;query&gt;</code> <code id="input">&lt;page-number&gt;</code></li>
+                                </ul></td>
+                                <td>Searches in the user list for a username or nickname.</td>
+                            </tr>
+                            <tr>
+                                <td>serverinfo</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$serverinfo</li>
+                                </ul></td>
+                                <td>Displays the server's information.</td>
+                            </tr>
+                            <tr>
+                                <td>strawpoll</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$strawpoll <code id="input">&lt;question&gt;</code> | <code id="input">&lt;choice1; choice2; chouce3; ...&gt;</code></li>
+                                    <li>$strawpoll -m <code id="input">&lt;question&gt;</code> | <code id="input">&lt;choice1; choice2; chouce3; ...&gt;</code></li>
+                                </ul></td>
+                                <td>Create a strawpoll vote. Use the '-m' flag for multiple choice.</td>
+                            </tr>
+                            <tr>
+                                <td>userinfo</td>
+                                <td></td>
+                                <td><ul>
+                                    <li>$userinfo</li>
+                                    <li>$userinfo <code id="input">&lt;@user|user-id|user-tag&gt;</code></li>
+                                </ul></td>
+                                <td>Displays a user's information.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLE:TYPICALBOT -->
+
+                <div class="tab-pane fade in" id="typicalbot">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>command</td>
+                                <td><ul>
+                                    <li>alias</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$command</li>
+                                    <li>$command <code id="input">&lt;input&gt;</code></li>
+                                </ul></td>
+                                <td>description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLE:HELP -->
+
+                <div class="tab-pane fade in" id="help">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>command</td>
+                                <td><ul>
+                                    <li>alias</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$command</li>
+                                    <li>$command <code id="input">&lt;input&gt;</code></li>
+                                </ul></td>
+                                <td>description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLE:PUBLIC-ROLES -->
+
+                <div class="tab-pane fade in" id="public-roles">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>command</td>
+                                <td><ul>
+                                    <li>alias</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$command</li>
+                                    <li>$command <code id="input">&lt;input&gt;</code></li>
+                                </ul></td>
+                                <td>description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TABLE:SETTINGS -->
+
+                <div class="tab-pane fade in" id="settings">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th width="10%">Name</th>
+                                <th width="10%">Aliases</th>
+                                <th width="30%">Usage</th>
+                                <th width="50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>command</td>
+                                <td><ul>
+                                    <li>alias</li>
+                                </ul></td>
+                                <td><ul>
+                                    <li>$command</li>
+                                    <li>$command <code id="input">&lt;input&gt;</code></li>
+                                </ul></td>
+                                <td>description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="permission-3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Elevated Permissions Required</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        The subcommand of that command required an elevated permission level of 3.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="permission-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Elevated Permissions Required</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        The subcommand of that command required an elevated permission level of 2.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    if (window.location.hash) {$(".nav-tabs a[href=\"" + window.location.hash.replace("!", "") + "\"]").tab("show")}
+    $(".nav-tabs a").on("shown.bs.tab", function(tab) {window.location.hash = tab.target.hash.replace("#", "#!")})
+    $("td:empty").append("<i style=\"opacity: 0.5;\" class=\"fa fa-times\"></i>")
+</script>

@@ -1,0 +1,30 @@
+<meta charset="utf-8">
+<link href="/x/images/icon.png" rel="icon" type="image/x-icon">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+<link rel="stylesheet" href="/x/style.css">
+<% if (auth && !user.lightTheme) { %> <link rel="stylesheet" href="/x/darktheme.css"> <% } %>
+<script src="https://use.fontawesome.com/d9402e3b49.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<script>
+    function draw(id, name) {
+        console.log(id, name);
+        const ctx = document.getElementById(id).getContext("2d");
+        ctx.fillStyle = "rgb(214, 214, 214)";
+        ctx.beginPath();
+        ctx.arc(15, 15, 15, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.restore();
+        ctx.textAlign = "center";
+        ctx.font = '16px Arial';
+        ctx.fillStyle = "rgb(23, 23, 23)";
+        ctx.fillText(name.split(" ").map(v => v[0]).join(""), 15, 21);
+    }
+
+    $(document).ready(function() {
+        $("canvas").each(function(e) {
+            draw($(this).attr("id"), $(this).attr("data-name"));
+        });
+    });
+</script>

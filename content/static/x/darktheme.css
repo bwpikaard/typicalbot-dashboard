@@ -1,0 +1,21 @@
+body {
+    background-color: #717171
+}
+
+.navbar {
+    background-color: #333
+}
+nav ul .nav-link:hover {
+    background-color: #00adff;
+}
+.docs .nav-link {
+    color: #333;
+}
+
+#ignoretheme {
+    color: black;
+}
+
+p, h1, h2, h3, h4, h4, a {
+    color: white;
+}
