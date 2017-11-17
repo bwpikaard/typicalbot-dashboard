@@ -107,6 +107,18 @@ new class extends express {
                 auth: req.isAuthenticated()
             });
         });
+        
+        this.get("/donate", (req, res) => {
+            res.redirect(`https://typicalbot.com/donate/`);
+        });
+        
+        this.get("/join-us", (req, res) => {
+            res.redirect(`https://discord.gg/typicalbot/`);
+        });
+
+        this.get("/invite", (req, res) => {
+            res.redirect(`https://discordapp.com/oauth2/authorize?client_id=212016587358601216&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
+        });
 
         this.get("/invite", (req, res) => {
             res.redirect(`https://discordapp.com/oauth2/authorize?client_id=212016587358601216&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
@@ -117,8 +129,6 @@ new class extends express {
 
             if (bot === "stable") {
                 res.redirect(`https://discordapp.com/oauth2/authorize?client_id=212016587358601216&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
-            } else if (bot === "prime") {
-                res.redirect(`https://discordapp.com/oauth2/authorize?client_id=185791654547030016&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
             } else if (bot === "beta") {
                 res.redirect(`https://discordapp.com/oauth2/authorize?client_id=212016587358601216&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
             } else if (bot === "development") {
@@ -130,6 +140,24 @@ new class extends express {
             } else {
                 res.status(404).render(page("404.ejs"));
             }
+        });
+        
+        this.get("/thanks", (req, res) => {
+            res.redirect(`/`);
+        });
+
+        
+
+        /*
+                                                           - - - - - - - - - -
+
+                                                                API
+
+                                                           - - - - - - - - - -
+        */
+
+        this.get("/api", (req, res) => {
+            res.status(200).send("OKAY");
         });
 
         /*
