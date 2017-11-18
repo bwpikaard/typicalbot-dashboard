@@ -33,7 +33,6 @@ nav ul li {
 }
 nav ul .nav-link {
     padding: 5px 10px !important;
-    border-radius: 4px;
     transition: background 0.2s linear !important;
 }
 nav ul .nav-link:hover {
