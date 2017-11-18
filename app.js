@@ -113,7 +113,7 @@ new class extends express {
         });
         
         this.get("/join-us", (req, res) => {
-            res.redirect(`https://discord.gg/typicalbot/`);
+            res.redirect(`https://discordapp.com/invite/typicalbot`);
         });
 
         this.get("/invite", (req, res) => {
