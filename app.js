@@ -3,6 +3,7 @@ const session = require("express-session");
 const passport = require("passport");
 const { Strategy } = require("passport-discord");
 const bodyParser = require("body-parser");
+const fs = require("fs");
 
 const url = require("url");
 const path = require("path");
@@ -120,10 +121,6 @@ new class extends express {
             res.redirect(`https://discordapp.com/oauth2/authorize?client_id=166527505610702848&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
         });
 
-        //this.get("/invite", (req, res) => {
-        //    res.redirect(`https://discordapp.com/oauth2/authorize?client_id=166527505610702848&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
-        //});
-
         this.get("/invite/:bot", (req, res) => {
             const bot = req.params.bot;
 
@@ -156,9 +153,29 @@ new class extends express {
                                                            - - - - - - - - - -
         */
 
+        async function grabLine(file) {
+            file = path.join(__dirname, "/data", file, ".txt");
+
+            fs.readFile(file, (err, data) => {
+                if (err) throw err;
+
+                const lines = data.split("\n");
+                const line = lines[Math.floor(Math.random() * lines.length)];
+                return line;
+            });
+        }
+
         this.get("/api", (req, res) => {
-            res.status(200).send("OKAY");
+            res.json({"code": 0, "message": "404: Not Found"});
         });
+        
+        this.get("/api/quotes", async (req, res) => {
+            res.json({"message": await grabLine("quotes") });
+        });
+
+        this.get("/api/*", (req, res) => {
+            res.json({"code": 0, "message": "404: Not Found"});
+        })
 
         /*
                                                            - - - - - - - - - -
