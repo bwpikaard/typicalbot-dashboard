@@ -135,7 +135,7 @@ new class extends express {
             } else if (bot === "mrgiveaway") {
                 res.redirect("https://discordapp.com/oauth2/authorize?client_id=343799790724841483&scope=bot&permissions=388160");
             } else {
-                res.status(404).render(page("404.ejs"));
+                res.status(404).render(page("404.ejs"), { user: req.user, auth: req.isAuthenticated() });
             }
         });
         
@@ -175,7 +175,7 @@ new class extends express {
 
         this.get("/api/*", (req, res) => {
             res.json({"code": 0, "message": "404: Not Found"});
-        })
+        });
 
         /*
                                                            - - - - - - - - - -
