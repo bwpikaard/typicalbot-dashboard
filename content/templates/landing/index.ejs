@@ -21,7 +21,7 @@
                 <ul class="guilds">
                     <% if (!user || !user.guilds || !user.guilds.length) { %>
                         <p class="text">No servers to display.</p>
-                    <% } else {
+                    <% } else { %>
                         <% user.guilds.sort((a,b) => { if (a.name.toLowerCase() < b.name.toLowerCase()) return -1; if (a.name.toLowerCase() > b.name.toLowerCase()) return 1; return 0}).forEach(g => { %>
                                 <li><a href="/guild/<%= g.id %>"><img class="guild-icon" src="<%= g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.jpg` : `/x/images/icon.png` %>" /><%= g.name %></a></li>
                         <% }) %>
