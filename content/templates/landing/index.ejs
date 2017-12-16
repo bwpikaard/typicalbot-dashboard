@@ -9,26 +9,28 @@
         <%- include("../pieces/navigation.ejs") %>
 
         <div class="frame row">
-            <div class="frame-nav scroll">
-                <p class="title">Manage a Server</p>
-                <ul class="guilds">
-                    <!-- <li><a href="#"><img class="aling-top" src="/x/images/icon.png" />TypicalBot Lounge</a></li>-->
-                </ul>
-                
-                <hr class="my-2">
-                
-                <p class="title">Invite to a Server</p>
-                <ul class="guilds">
-                    <% if (!user || !user.guilds || !user.guilds.length) { %>
-                        <p class="text">No servers to display.</p>
-                    <% } else { %>
-                        <% user.guilds.sort((a,b) => { if (a.name.toLowerCase() < b.name.toLowerCase()) return -1; if (a.name.toLowerCase() > b.name.toLowerCase()) return 1; return 0}).forEach(g => { %>
-                                <li><a href="/guild/<%= g.id %>"><img class="guild-icon" src="<%= g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.jpg` : `/x/images/icon.png` %>" /><%= g.name %></a></li>
-                        <% }) %>
-                    <% } %>
-                </ul>
-            </div>
-            <div class="frame-page scroll">
+            <% if (user) { %>
+                <div class="frame-nav scroll">
+                    <p class="title">Manage a Server</p>
+                    <ul class="guilds">
+                        <!-- <li><a href="#"><img class="aling-top" src="/x/images/icon.png" />TypicalBot Lounge</a></li>-->
+                    </ul>
+                    
+                    <hr class="my-2">
+                    
+                    <p class="title">Invite to a Server</p>
+                    <ul class="guilds">
+                        <% if (!user || !user.guilds || !user.guilds.length) { %>
+                            <p class="text">No servers to display.</p>
+                        <% } else { %>
+                            <% user.guilds.sort((a,b) => { if (a.name.toLowerCase() < b.name.toLowerCase()) return -1; if (a.name.toLowerCase() > b.name.toLowerCase()) return 1; return 0}).forEach(g => { %>
+                                    <li><a href="/guild/<%= g.id %>"><img class="guild-icon" src="<%= g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.jpg` : `/x/images/icon.png` %>" /><%= g.name %></a></li>
+                            <% }) %>
+                        <% } %>
+                    </ul>
+                </div>
+            <% } %>
+            <div class="frame-page scroll" <% if (!user) { %> style="width: 100%;" <% } %>>
                 <div class="jumbotron">
                     <h1 class="display-4" id="ignoretheme">What is TypicalBot? <img src="/x/images/think.png" height=40 class="align-center"></h1>
                     <hr class="my-4">
