@@ -103,7 +103,7 @@ new class extends express {
                 const data = [];
 
                 guilds.forEach((guild, i) => {
-                    request.get(`http://localhost:5000/guilds/${guild}`).end((err, res) => {
+                    request.get(`http://localhost:5000/guilds/${guild.id}`).end((err, res) => {
                         if (err) {
                             console.log(res.body);
                             console.log("Mal.");
