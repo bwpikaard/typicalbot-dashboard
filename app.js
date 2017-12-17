@@ -134,7 +134,7 @@ new class extends express {
             if (!req.isAuthenticated()) return next();
 
             const userData = await fetchUserData(req.user);
-            console.log(userData[0]);
+            console.log(userData);
 
             res.render(page("landing/index.ejs"), {
                 user: req.user,
