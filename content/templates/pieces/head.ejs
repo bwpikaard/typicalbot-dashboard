@@ -34,3 +34,11 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        const e = $(".scroll");
+        for (let i = 0; i < e.length; i++) {
+            if (e[i].scrollHeight > e[i].clientHeight) e[i].className += " frame-page-scroll";
+        }
+    });
+</script>

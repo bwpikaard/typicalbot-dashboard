@@ -135,7 +135,6 @@ new class extends express {
             if (!req.isAuthenticated()) return next();
 
             const userData = await fetchUserData(req.user);
-            console.log(userData);
 
             res.render(page("landing/index.ejs"), {
                 user: req.user,
@@ -149,8 +148,18 @@ new class extends express {
             });
         });
 
-        this.get("/documentation", (req, res) => {
+        this.get("/documentation", async (req, res, next) => {
+            if (!req.isAuthenticated()) return next();
+
+            const userData = await fetchUserData(req.user);
+
             res.render(page("landing/documentation.ejs"), {
+                user: req.user,
+                auth: req.isAuthenticated(),
+                guilds: userData
+            });
+        }, (req, res) => {
+            res.render(page("landing/index.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated()
             });
