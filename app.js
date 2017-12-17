@@ -101,21 +101,27 @@ new class extends express {
             const guilds = user.guilds;
             const data = [];
 
-            for (const guild of guilds) {
+            guilds.forEach((guild, i) => {
                 request.get(`http://localhost:5000/guilds/${guild}`).end((err, res) => {
                     if (err) {
-                        console.log("Mal.");
+                        console.log(err);
                         Object.defineProperty(guild, "isMember", { value: false });
                         if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
+
+                        if (i + 1 === user.guilds.length) setTimeout(() => {
+                            return data;
+                        }, 100);
                     } else {
                         console.log("Bueno.");
                         Object.defineProperty(guild, "isMember", { value: true });
                         if (data.permissions.level >= 2) data.push(guild);
+
+                        if (i + 1 === user.guilds.length) setTimeout(() => {
+                            return data;
+                        }, 100);
                     }
                 });
-            }
-
-            return data;
+            });
         }
 
         this.get("/", async (req, res, next) => {
