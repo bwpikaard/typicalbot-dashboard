@@ -38,7 +38,7 @@
                                     <% if (g.icon) { %>
                                         <img class="aling-top" src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon %>.jpg" />
                                     <% } else { %>
-                                        <canvas class="guild-icon align-top" id="<%= g.id %>" data-guild-name="<%= g.name %>" width="50" height="50"></canvas>
+                                        <canvas class="guild-icon align-top" id="<%= g.id %>" data-guild-name="<%= g.name %>" width="30" height="30"></canvas>
                                     <% } %>
                                     <%= g.name %>
                                 </a>
@@ -75,13 +75,13 @@
         const ctx = document.getElementById(id).getContext("2d");
         ctx.fillStyle = "rgb(214, 214, 214)";
         ctx.beginPath();
-        ctx.arc(25, 25, 25, 0, 2 * Math.PI, false);
+        ctx.arc(15, 15, 15, 0, 2 * Math.PI, false);
         ctx.fill();
         ctx.restore();
         ctx.textAlign = "center";
         ctx.font = '17px Arial';
         ctx.fillStyle = "rgb(23, 23, 23)";
-        ctx.fillText(name.split(" ").map(v => v[0]).join(""), 25, 31);
+        ctx.fillText(name.split(" ").map(v => v[0]).join(""), 15, 11);
     }
     $(document).ready(function() {
         $("canvas").each(function(e) {
