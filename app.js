@@ -114,13 +114,12 @@ new class extends express {
                         } else {
                             request.get(`http://localhost:5000/guilds/${guild.id}/users/${user.id}`).end((err2, res2) => {
                                 if (err2) {
-                                    console.log(err2.body || err2);
+                                    return;
                                 } else {
                                     Object.defineProperty(guild, "isMember", { value: true });
-                                    console.log(res2.body, typeof res2.body);
                                     if (res2.body.permissions.level >= 2) data.push(guild);
                                 }
-                                
+
                                 if (i + 1 === user.guilds.length) setTimeout(() => {
                                     resolve(data);
                                 }, 100);
