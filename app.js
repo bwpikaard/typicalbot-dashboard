@@ -106,7 +106,6 @@ new class extends express {
                     request.get(`http://localhost:5000/guilds/${guild.id}`).end((err, res) => {
                         if (err) {
                             guild.isMember = false;
-                            console.log(new Permissions(guild.permissions).has("MANAGE_GUILD"));
                             if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
 
                             if (i + 1 === user.guilds.length) setTimeout(() => {
@@ -159,7 +158,7 @@ new class extends express {
                 guilds: userData
             });
         }, (req, res) => {
-            res.render(page("landing/index.ejs"), {
+            res.render(page("landing/documentation.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated()
             });
