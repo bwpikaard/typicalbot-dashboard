@@ -5,6 +5,8 @@ const { Strategy } = require("passport-discord");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 
+const request = require("superagent");
+
 const url = require("url");
 const path = require("path");
 
@@ -95,7 +97,36 @@ new class extends express {
                                                            - - - - - - - - - -
         */
 
-        this.get("/", (req, res) => {
+        async function fetchUserData(user) {
+            const guilds = user.guilds;
+            const data = [];
+
+            for (const guild of guilds) {
+                request.get(`http://localhost:100000/guilds/${guild}`).end((err, res) => {
+                    if (err) {
+                        Object.defineProperty(guild, "isMember", { value: false });
+                        if (new Permissions(guilds.permissions).has("MANAGE_GUILD")) data.push(guild);
+                    } else {
+                        Object.defineProperty(guild, "isMember", { value: true });
+                        if (data.permissions.level >= 2) data.push(guild);
+                    }
+                });
+            }
+
+            return data;
+        }
+
+        this.get("/", async (req, res, next) => {
+            if (!req.isAuthenticated()) return next();
+
+            const userData = await fetchUserData(req.user);
+
+            res.render(page("landing/index.ejs"), {
+                user: req.user,
+                auth: req.isAuthenticated(),
+                guilds: userData
+            });
+        }, (req, res) => {
             res.render(page("landing/index.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated()
@@ -108,11 +139,11 @@ new class extends express {
                 auth: req.isAuthenticated()
             });
         });
-        
+
         this.get("/donate", (req, res) => {
             res.redirect(`https://typicalbot.com/donate/`);
         });
-        
+
         this.get("/join-us", (req, res) => {
             res.redirect(`https://discordapp.com/invite/typicalbot`);
         });
@@ -138,12 +169,12 @@ new class extends express {
                 res.status(404).render(page("404.ejs"), { user: req.user, auth: req.isAuthenticated() });
             }
         });
-        
+
         this.get("/thanks", (req, res) => {
             res.redirect(`/`);
         });
 
-        
+
 
         /*
                                                            - - - - - - - - - -
@@ -168,7 +199,7 @@ new class extends express {
         this.get("/api", (req, res) => {
             res.json({"code": 0, "message": "404: Not Found"});
         });
-        
+
         this.get("/api/quotes", async (req, res) => {
             res.json({"message": await grabLine("quotes") });
         });

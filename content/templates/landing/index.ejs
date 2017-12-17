@@ -9,28 +9,45 @@
         <%- include("../pieces/navigation.ejs") %>
 
         <div class="frame row">
-            <% if (user) { %>
+            <% if (auth) { %>
                 <div class="frame-nav scroll">
-                    <p class="title">Manage a Server</p>
-                    <ul class="guilds">
-                        <!-- <li><a href="#"><img class="aling-top" src="/x/images/icon.png" />TypicalBot Lounge</a></li>-->
-                    </ul>
-                    
-                    <hr class="my-2">
-                    
+                    <% if (guilds.filter(g => g.isMember).length) {
+                        <p class="title">Manage a Server</p>
+                        <ul class="guilds">
+                            <% guilds.filter(g => g.isMember).sort((a,b) => { if (a.name.toLowerCase() < b.name.toLowerCase()) return -1; if (a.name.toLowerCase() > b.name.toLowerCase()) return 1; return 0}).forEach(g => {
+                                <li>
+                                    <a href="/guilds/<%= g.id %>">
+                                        <% if (g.icon) {
+                                            <img class="aling-top" src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon %>.jpg" />
+                                        <% } else { %>
+                                            <canvas class="guild-icon align-top" id="<%= g.id %>" data-guild-name="<%= g.name %>" width="50" height="50"></canvas>
+                                        <% } %>
+                                        <%= g.name %>
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+
+                        <hr class="my-2">
+                    <% } %>
                     <p class="title">Invite to a Server</p>
                     <ul class="guilds">
-                        <% if (!user || !user.guilds || !user.guilds.length) { %>
-                            <p class="text">No servers to display.</p>
-                        <% } else { %>
-                            <% user.guilds.sort((a,b) => { if (a.name.toLowerCase() < b.name.toLowerCase()) return -1; if (a.name.toLowerCase() > b.name.toLowerCase()) return 1; return 0}).forEach(g => { %>
-                                    <li><a href="/guild/<%= g.id %>"><img class="guild-icon" src="<%= g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.jpg` : `/x/images/icon.png` %>" /><%= g.name %></a></li>
-                            <% }) %>
+                        <% guilds.filter(g => !g.isMember).sort((a,b) => { if (a.name.toLowerCase() < b.name.toLowerCase()) return -1; if (a.name.toLowerCase() > b.name.toLowerCase()) return 1; return 0}).forEach(g => {
+                            <li>
+                                <a href="/guilds/<%= g.id %>">
+                                    <% if (g.icon) {
+                                        <img class="aling-top" src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon %>.jpg" />
+                                    <% } else { %>
+                                        <canvas class="guild-icon align-top" id="<%= g.id %>" data-guild-name="<%= g.name %>" width="50" height="50"></canvas>
+                                    <% } %>
+                                    <%= g.name %>
+                                </a>
+                            </li>
                         <% } %>
                     </ul>
                 </div>
             <% } %>
-            <div class="frame-page scroll" <% if (!user) { %> style="width: 100%;" <% } %>>
+            <div class="frame-page scroll" <% if (!auth) { %> style="width: 100%;" <% } %>>
                 <div class="jumbotron">
                     <h1 class="display-4" id="ignoretheme">What is TypicalBot? <img src="/x/images/think.png" height=40 class="align-center"></h1>
                     <hr class="my-4">
@@ -38,7 +55,7 @@
                     <br>
                     <p class="lead" id="ignoretheme">Built upon over a year of experience, TypicalBot is the ironically-named bot that is far from typical. Stable, lightning fast, and easy to use, TypicalBot is there for you and will seamlessly help you moderate your server and offer some entertaining features for your users, every step of the way.</p>
                 </div>
-            
+
                 <hr class="my-4">
             </div>
         </div>
@@ -50,4 +67,25 @@
     for (let i = 0; i < e.length; i++) {
         if (e[i].scrollHeight > e[i].clientHeight) e[i].className += " frame-page-scroll";
     }
+</script>
+
+<script>
+    function draw(id, name) {
+        console.log(id, name);
+        const ctx = document.getElementById(id).getContext("2d");
+        ctx.fillStyle = "rgb(214, 214, 214)";
+        ctx.beginPath();
+        ctx.arc(25, 25, 25, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.restore();
+        ctx.textAlign = "center";
+        ctx.font = '17px Arial';
+        ctx.fillStyle = "rgb(23, 23, 23)";
+        ctx.fillText(name.split(" ").map(v => v[0]).join(""), 25, 31);
+    }
+    $(document).ready(function() {
+        $("canvas").each(function(e) {
+            draw($(this).attr("id"), $(this).attr("data-guild-name"));
+        });
+    });
 </script>
