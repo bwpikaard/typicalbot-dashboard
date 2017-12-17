@@ -104,9 +104,11 @@ new class extends express {
             for (const guild of guilds) {
                 request.get(`http://localhost:5000/guilds/${guild}`).end((err, res) => {
                     if (err) {
+                        console.log("Mal.");
                         Object.defineProperty(guild, "isMember", { value: false });
                         if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
                     } else {
+                        console.log("Bueno.");
                         Object.defineProperty(guild, "isMember", { value: true });
                         if (data.permissions.level >= 2) data.push(guild);
                     }
