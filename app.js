@@ -111,7 +111,7 @@ new class extends express {
 
                             if (i + 1 === user.guilds.length) setTimeout(() => {
                                 resolve(data);
-                            }, 500);
+                            }, 200);
                         } else {
                             request.get(`http://localhost:5000/guilds/${guild.id}/users/${user.id}`).end((err2, res2) => {
                                 if (err2) {
@@ -123,7 +123,7 @@ new class extends express {
 
                                 if (i + 1 === user.guilds.length) setTimeout(() => {
                                     resolve(data);
-                                }, 500);
+                                }, 200);
                             });
                         }
                     });
