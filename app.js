@@ -105,8 +105,6 @@ new class extends express {
                 guilds.forEach((guild, i) => {
                     request.get(`http://localhost:5000/guilds/${guild.id}`).end((err, res) => {
                         if (err) {
-                            console.log(res.body);
-                            console.log("Mal.");
                             Object.defineProperty(guild, "isMember", { value: false });
                             if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
 
@@ -114,13 +112,14 @@ new class extends express {
                                 resolve(data);
                             }, 100);
                         } else {
-                            console.log("Bueno.");
-                            Object.defineProperty(guild, "isMember", { value: true });
-                            if (data.permissions.level >= 2) data.push(guild);
+                            request.get(`http://localhost:5000/guilds/${guild.id}/users/${user.id}`).end((err, res) => {
+                                Object.defineProperty(guild, "isMember", { value: true });
+                                if (res.body.permissions.level >= 2) data.push(guild);
 
-                            if (i + 1 === user.guilds.length) setTimeout(() => {
-                                resolve(data);
-                            }, 100);
+                                if (i + 1 === user.guilds.length) setTimeout(() => {
+                                    resolve(data);
+                                }, 100);
+                            });
                         }
                     });
                 });
