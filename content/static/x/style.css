@@ -128,6 +128,9 @@ nav ul .dropdown-menu .dropdown-item {
     width: 30px;
     margin-right: 5px;
 }
+.frame-nav .guilds li a canvas {
+    margin-right: 5px;
+}
 
 
 .content {
