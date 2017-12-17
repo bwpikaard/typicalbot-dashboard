@@ -98,28 +98,30 @@ new class extends express {
         */
 
         async function fetchUserData(user) {
-            const guilds = user.guilds;
-            const data = [];
+            return new Promise(async (resolve, reject) => {
+                const guilds = user.guilds;
+                const data = [];
 
-            guilds.forEach((guild, i) => {
-                request.get(`http://localhost:5000/guilds/${guild}`).end((err, res) => {
-                    if (err) {
-                        console.log("Mal.");
-                        Object.defineProperty(guild, "isMember", { value: false });
-                        if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
+                guilds.forEach((guild, i) => {
+                    request.get(`http://localhost:5000/guilds/${guild}`).end((err, res) => {
+                        if (err) {
+                            console.log("Mal.");
+                            Object.defineProperty(guild, "isMember", { value: false });
+                            if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
 
-                        if (i + 1 === user.guilds.length) setTimeout(() => {
-                            return data;
-                        }, 100);
-                    } else {
-                        console.log("Bueno.");
-                        Object.defineProperty(guild, "isMember", { value: true });
-                        if (data.permissions.level >= 2) data.push(guild);
+                            if (i + 1 === user.guilds.length) setTimeout(() => {
+                                resolve(data);
+                            }, 100);
+                        } else {
+                            console.log("Bueno.");
+                            Object.defineProperty(guild, "isMember", { value: true });
+                            if (data.permissions.level >= 2) data.push(guild);
 
-                        if (i + 1 === user.guilds.length) setTimeout(() => {
-                            return data;
-                        }, 100);
-                    }
+                            if (i + 1 === user.guilds.length) setTimeout(() => {
+                                resolve(data);
+                            }, 100);
+                        }
+                    });
                 });
             });
         }
