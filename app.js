@@ -106,6 +106,7 @@ new class extends express {
                     request.get(`http://localhost:5000/guilds/${guild.id}`).end((err, res) => {
                         if (err) {
                             guild.isMember = false;
+                            console.log(new Permissions(guild.permissions).has("MANAGE_GUILD"));
                             if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
 
                             if (i + 1 === user.guilds.length) setTimeout(() => {
