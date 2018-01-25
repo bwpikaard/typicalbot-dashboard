@@ -44,7 +44,7 @@ new class extends express {
         this.engine("html", require("ejs").renderFile);
         this.set("view engine", "html");
 
-        function isAuthenticated(req, res, next) { if (req.isAuthenticated()) return next(); req.session.backURL = req.url; res.redirect("/auth/login"); }
+        function isAuthenticated(req, res, next) { if (req.isAuthenticated()) return next(); res.redirect("/auth/login"); }
         function isStaff(user) {
             request.get(`${api}/users/${user.id}`).end((err, res) => {
                 if (err) return false;
