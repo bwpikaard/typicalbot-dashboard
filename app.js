@@ -22,6 +22,8 @@ new class extends express {
 
         this.config = require("./config");
 
+        this.invite = `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code`;
+
         this.users = new Discord.Collection();
 
         passport.serializeUser((id, done) => { done(null, id); });
@@ -205,7 +207,7 @@ new class extends express {
                 const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
-                res.redirect(`${this.invite}&guild_id=${guild.id}`);
+                res.redirect(`${this.invite}&guild_id=${guild}`);
             });
         });
 
@@ -368,9 +370,5 @@ new class extends express {
         this.use((req, res) => res.status(404).render(template("404.ejs"), { user: req.user, auth: req.isAuthenticated() }));
 
         this.listen(this.config.port, () => console.log(`Express Server Created | Listening on Port :${this.config.port}`));
-    }
-
-    get invite() {
-        return `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code`;
     }
 };
