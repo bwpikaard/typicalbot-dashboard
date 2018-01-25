@@ -234,6 +234,22 @@ code[id="input"] {
     background-color: red;
 }
 
+a[data-leave] {
+    display: block;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    text-decoration: none;
+}
+a[data-leave-yes] {
+    margin-bottom: 5px;
+    background-color: red;
+}
+a[data-leave-no] {
+    background-color: #00adff;
+}
+
 .frame-page .guild-actions {
     list-style-type: none;
     margin: 10px;

@@ -204,6 +204,32 @@ new class extends express {
             });
         });
 
+        this.get("/guilds/:guild/leave", isAuthenticated, async (req, res) => {
+            const guild = req.params.guild;
+
+            const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
+            if (!userInGuild) return res.redirect("/access-denied");
+
+            const userData = await fetchUserData(req.user);
+
+            request.get(`${api}/guilds/${guild}`).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).then(dataUser => {
+                    if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
+
+                    request.post(`${api}/guilds/${guild}/leave`).send({ token: this.config.token }).then(() => {
+                        res.redirect("/");
+                    }).catch(err => {
+                        res.redirect("/access-denied");
+                    });
+                }).catch(console.error);
+            }).catch(err => {
+                const userPerms = new Permissions(userInGuild.permissions);
+                if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
+
+                res.redirect(OAuth(this.config.clientID, guild));
+            });
+        });
+
         this.get("/guilds/:guild/settings", isAuthenticated, async (req, res) => {
             const guild = req.params.guild;
 

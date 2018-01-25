@@ -64,7 +64,7 @@
 
                         <div class="guild-info">
                             <div class="topic">
-                                <a class="leave float-right" tabindex=0 data-toggle="popover" data-trigger="focus" title="Are you sure?" data-content="Yes. No.">Leave Server</a>
+                                <a class="leave float-right" tabindex=0 data-toggle="popover" data-trigger="focus" title="Are you sure?">Leave Server</a>
                                 <img class="align-top" src="<%= guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.jpg?size=1024` : `/images/unknown.png` %>">
                                 <div class="info">
                                     <p bold style="font-size: 22px;"><%= guild.name %></p>
@@ -107,5 +107,9 @@
     })
     $('.popover-dismiss').popover({
         trigger: 'focus'
+    })
+    $('.leave').popover({
+        html: true,
+        content: `<a data-leave data-leave-yes href="leave">Leave</a><a data-leave data-leave-no href="leave">Stay</a>`
     })
 </script>
