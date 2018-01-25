@@ -4,6 +4,7 @@ const passport = require("passport");
 const { Strategy } = require("passport-discord");
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const crypto = require("crypto");
 
 const request = require("snekfetch");
 
@@ -115,21 +116,21 @@ new class extends express {
                 guild.isMember = false;
                 if (new Permissions(guild.permissions).has("MANAGE_GUILD")) return guild;
             }
-            
+
             try {
                 const res = await request.get(`${api}/guilds/${guild.id}/users/${user.id}`);
                 guild.isMember = true;
                 if (res.body.permissions.level >= 2) return guild;
             } catch (err) { return undefined; }
-    
+
             return undefined;
         }
 
         async function fetchUserData(user) {
             const guilds = user.guilds;
-            
+
             const data = (await Promise.all(guilds.map(g => checkGuild(g, user)))).filter(i => i);
-    
+
             return data;
         }
 
@@ -301,6 +302,10 @@ new class extends express {
 
                                                            - - - - - - - - - -
         */
+
+        tokenGen() {
+            return crypto.randomBytes(20).toString("base64");
+        }
 
         async function grabLine(file) {
             file = path.join(__dirname, "/data", file, ".txt");
