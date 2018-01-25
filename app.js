@@ -332,7 +332,12 @@ new class extends express {
         });
 
         this.get("/api/stats", isApplication, async (req, res) => {
-            res.json({"data": await grabLine("quotes") });
+            request.get(`${this.config.api}/stats`).set("Authentication", this.config.apitoken).then(data => {
+                return res.json({ data: data.body });
+            }).catch(err => {
+                console.log(err);
+                return res.status(500);
+            });
         });
 
         this.get("/api/quotes", isApplication, async (req, res) => {
