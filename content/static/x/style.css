@@ -241,13 +241,8 @@ a[data-leave] {
     text-align: center;
     padding: 5px;
     text-decoration: none;
-}
-a[data-leave-yes] {
     margin-bottom: 5px;
     background-color: red;
-}
-a[data-leave-no] {
-    background-color: #00adff;
 }
 
 .frame-page .guild-actions {
