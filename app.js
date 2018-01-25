@@ -216,7 +216,7 @@ new class extends express {
                 request.get(`${api}/guilds/${guild}/users/${req.user.id}`).then(dataUser => {
                     if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
 
-                    (new request()).set("token", this.config.apitoken).post(`${api}/guilds/${guild}/leave`).then(() => {
+                    request.post(`${api}/guilds/${guild}/leave`).set("token", this.config.apitoken).then(() => {
                         res.redirect("/");
                     }).catch(err => {
                         res.redirect("/access-denied");
