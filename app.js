@@ -3,23 +3,20 @@ const session       = require("express-session");
 const passport      = require("passport");
 const { Strategy }  = require("passport-discord");
 const bodyParser    = require("body-parser");
+const Discord       = require("discord.js");
+
 const fs            = require("fs");
-const crypto        = require("crypto");
-
 const request       = require("snekfetch");
-
 const url           = require("url");
 const path          = require("path");
 
-const Discord       = require("discord.js");
+const crypto        = require("crypto");
 
-function page(req_path) { return path.join(__dirname, "content", "templates", req_path); }
-
-function OAuth(client, guild) { return `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code&guild_id=${guild}`; }
+function template(req) { return path.join(__dirname, "content", "templates", req); }
 
 const User = require("./structures/User");
 
-const api = "http://localhost:5000";//"http://pcoh.ddns.net:5000"; //"http://localhost:5000";
+const api = "http://pcoh.ddns.net:5000"; //"http://localhost:5000";
 
 new class extends express {
     constructor() {
@@ -29,6 +26,14 @@ new class extends express {
 
         this.users = new Discord.Collection();
 
+        this.init();
+    }
+
+    get invite() {
+        return `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code`;
+    }
+
+    init() {
         passport.serializeUser((id, done) => { done(null, id); });
         passport.deserializeUser((id, done) => { done(null, this.users.get(id)); });
 
@@ -47,12 +52,10 @@ new class extends express {
 
         function isAuthenticated(req, res, next) { if (req.isAuthenticated()) return next(); res.redirect("/auth/login"); }
         function isStaff(user) {
-            request.get(`${api}/users/${user.id}`).end((err, res) => {
-                if (err) return false;
-
+            request.get(`${api}/users/${user.id}`).then(res => {
                 const data = res.body;
                 return !!data.staff;
-            });
+            }).catch(err => { return false; });
         }
         //function isApplication (req, res, next) { if (req.headers.authorization && req.headers.authorization === "HyperCoder#2975") return next(); res.status(401).json({ "message": "Unauthorized" }); }
 
@@ -95,7 +98,7 @@ new class extends express {
         });
 
         this.get("/access-denied", (req, res) => {
-            res.render(page("403.ejs"), {
+            res.render(template("403.ejs"), {
                 user: req.user || null,
                 auth: req.isAuthenticated()
             });
@@ -104,21 +107,21 @@ new class extends express {
         /*
                                                            - - - - - - - - - -
 
-                                                                MAIN PAGES
+                                                                MAIN templateS
 
                                                            - - - - - - - - - -
         */
 
         async function checkGuild(guild, user) {
             try {
-                const res = await request.get(`${api}/guilds/${guild.id}`);
+                const res = await request.get(`${api}/guilds/${guild.id}`).set("token", this.config.apitoken);
             } catch (err) {
                 guild.isMember = false;
                 if (new Discord.Permissions(guild.permissions).has("MANAGE_GUILD")) return guild;
             }
 
             try {
-                const res = await request.get(`${api}/guilds/${guild.id}/users/${user.id}`);
+                const res = await request.get(`${api}/guilds/${guild.id}/users/${user.id}`).set("token", this.config.apitoken);
                 guild.isMember = true;
                 if (res.body.permissions.level >= 2) return guild;
             } catch (err) { return undefined; }
@@ -140,13 +143,13 @@ new class extends express {
 
             const userData = await fetchUserData(req.user);
 
-            res.render(page("landing/index.ejs"), {
+            res.render(template("landing/index.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated(),
                 guilds: userData
             });
         }, (req, res) => {
-            res.render(page("landing/index.ejs"), {
+            res.render(template("landing/index.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated()
             });
@@ -157,13 +160,13 @@ new class extends express {
 
             const userData = await fetchUserData(req.user);
 
-            res.render(page("landing/documentation.ejs"), {
+            res.render(template("landing/documentation.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated(),
                 guilds: userData
             });
         }, (req, res) => {
-            res.render(page("landing/documentation.ejs"), {
+            res.render(template("landing/documentation.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated()
             });
@@ -172,7 +175,7 @@ new class extends express {
         this.get("/guilds", isAuthenticated, async (req, res) => {
             const userData = await fetchUserData(req.user);
 
-            res.render(page("landing/guilds.ejs"), {
+            res.render(template("landing/guilds.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated(),
                 guilds: userData
@@ -187,11 +190,11 @@ new class extends express {
 
             const userData = await fetchUserData(req.user);
 
-            request.get(`${api}/guilds/${guild}`).then(guildData => {
-                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).then(dataUser => {
+            request.get(`${api}/guilds/${guild}`).set("token", this.config.apitoken).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("token", this.config.apitoken).then(dataUser => {
                     if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
 
-                    res.render(page("landing/guild/guild.ejs"), {
+                    res.render(template("landing/guild/guild.ejs"), {
                         user: req.user,
                         auth: req.isAuthenticated(),
                         guilds: userData,
@@ -202,7 +205,7 @@ new class extends express {
                 const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
-                res.redirect(OAuth(this.config.clientID, guild));
+                res.redirect(`${this.invite}&guild_id=${guild.id}`);
             });
         });
 
@@ -214,8 +217,8 @@ new class extends express {
 
             const userData = await fetchUserData(req.user);
 
-            request.get(`${api}/guilds/${guild}`).then(guildData => {
-                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).then(dataUser => {
+            request.get(`${api}/guilds/${guild}`).set("token", this.config.apitoken).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("token", this.config.apitoken).then(dataUser => {
                     if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
 
                     request.post(`${api}/guilds/${guild}/leave`).set("token", this.config.apitoken).then(() => {
@@ -228,7 +231,7 @@ new class extends express {
                 const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
-                res.redirect(OAuth(this.config.clientID, guild));
+                res.redirect(`${this.invite}&guild_id=${guild.id}`);
             });
         });
 
@@ -240,11 +243,11 @@ new class extends express {
 
             const userData = await fetchUserData(req.user);
 
-            request.get(`${api}/guilds/${guild}`).then(guildData => {
-                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).then(dataUser => {
+            request.get(`${api}/guilds/${guild}`).set("token", this.config.apitoken).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("token", this.config.apitoken).then(dataUser => {
                     if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
 
-                    res.render(page("landing/guild/settings.ejs"), {
+                    res.render(template("landing/guild/settings.ejs"), {
                         user: req.user,
                         auth: req.isAuthenticated(),
                         guilds: userData,
@@ -255,7 +258,7 @@ new class extends express {
                 const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
-                res.redirect(OAuth(this.config.clientID, guild));
+                res.redirect(`${this.invite}&guild_id=${guild.id}`);
             });
         });
 
@@ -285,7 +288,7 @@ new class extends express {
             } else if (bot === "mrgiveaway") {
                 res.redirect("https://discordapp.com/oauth2/authorize?client_id=343799790724841483&scope=bot&permissions=388160");
             } else {
-                res.status(404).render(page("404.ejs"), { user: req.user, auth: req.isAuthenticated() });
+                res.status(404).render(template("404.ejs"), { user: req.user, auth: req.isAuthenticated() });
             }
         });
 
@@ -303,7 +306,7 @@ new class extends express {
                                                            - - - - - - - - - -
         */
 
-        tokenGen() {
+        function tokenGen() {
             return crypto.randomBytes(20).toString("base64");
         }
 
@@ -362,7 +365,7 @@ new class extends express {
         */
 
         this.use(express.static(`${__dirname}/content/static`));
-        this.use((req, res) => res.status(404).render(page("404.ejs"), { user: req.user, auth: req.isAuthenticated() }));
+        this.use((req, res) => res.status(404).render(template("404.ejs"), { user: req.user, auth: req.isAuthenticated() }));
 
         this.listen(this.config.port, () => console.log(`Express Server Created | Listening on Port :${this.config.port}`));
     }

@@ -1,5 +1,5 @@
 config.json
-tokens.json
+tokens.js
 node_modules/*
 start.bat
 $RECYCLE.BIN
