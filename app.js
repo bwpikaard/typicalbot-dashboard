@@ -135,24 +135,7 @@ new class extends express {
 
         this.get("/", async (req, res, next) => {
             if (!req.isAuthenticated()) return next();
-
-            const userData = await fetchUserData(req.user);
-
-            res.render(page("landing/index.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated(),
-                guilds: userData
-            });
-        }, (req, res) => {
-            res.render(page("landing/index.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated()
-            });
-        });
-
-        this.get("/?code=:code&guild_id=:guild&permissions=:permissions", async (req, res, next) => {
-            if (req.params.guild_id) return res.redirect(`/guilds/${req.params.guild_id}`);
-            if (!req.isAuthenticated()) return next();
+            if (req.query.guild_id) return res.redirect(`/guilds/${req.query.guild_id}`);
 
             const userData = await fetchUserData(req.user);
 
