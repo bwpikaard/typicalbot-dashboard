@@ -26,14 +26,6 @@ new class extends express {
 
         this.users = new Discord.Collection();
 
-        this.init();
-    }
-
-    get invite() {
-        return `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code`;
-    }
-
-    init() {
         passport.serializeUser((id, done) => { done(null, id); });
         passport.deserializeUser((id, done) => { done(null, this.users.get(id)); });
 
@@ -50,6 +42,14 @@ new class extends express {
         this.engine("html", require("ejs").renderFile);
         this.set("view engine", "html");
 
+        this.init();
+    }
+
+    get invite() {
+        return `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code`;
+    }
+
+    init() {
         function isAuthenticated(req, res, next) { if (req.isAuthenticated()) return next(); res.redirect("/auth/login"); }
         function isStaff(user) {
             request.get(`${api}/users/${user.id}`).then(res => {
