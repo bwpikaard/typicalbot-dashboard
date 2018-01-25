@@ -1,4 +1,5 @@
 const { Permissions } = require("discord.js");
+const tokens = require("../tokens");
 
 module.exports = class {
     constructor(profile) {
@@ -9,5 +10,7 @@ module.exports = class {
         this.guilds = profile.guilds;
 
         this.lightTheme = true;
+
+        this.apitoken = tokens[profile.id] ? tokens[profile.id].token : null;
     }
 };

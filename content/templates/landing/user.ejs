@@ -2,11 +2,11 @@
 
 <html>
     <head>
-        <%- include("../../pieces/head.ejs") %>
-        <title><%= guild.name %> – TypicalBot</title>
+        <%- include("../pieces/head.ejs") %>
+        <title><%= user.username %>#<%= user.discriminator %> – TypicalBot</title>
     </head>
     <body>
-        <%- include("../../pieces/navigation.ejs") %>
+        <%- include("../pieces/navigation.ejs") %>
 
         <div class="frame row">
             <% if (auth) { %>
@@ -52,8 +52,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/guilds">Guilds</a></li>
-                        <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>"><%= guild.name %></a></li>
+                        <li class="breadcrumb-item"><a href="/user"><%= user.username %>#<%= user.discriminator %></a></li>
                     </ol>
                 </nav>
                 <div <% if (!auth) { %> class="container" <% } %>>
@@ -64,33 +63,32 @@
 
                         <div class="info-box">
                             <div class="topic">
-                                <a class="leave float-right" tabindex=0 data-toggle="popover" data-trigger="focus" title="Are you sure?">Leave Server</a>
-                                <img class="align-top" src="<%= guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.jpg?size=1024` : `/images/unknown.png` %>">
+                                <img class="align-top" src="<%= user.avatarURL ? user.avatarURL : "" %>">
                                 <div class="info">
-                                    <p bold style="font-size: 22px;"><%= guild.name %></p>
-                                    <p>Owned By <b><%= guild.owner.username %>#<%= guild.owner.discriminator %></p>
+                                    <p bold style="font-size: 22px;"><%= user.username %>#<%= user.discriminator %></p>
                                     <hr class="my-2">
-                                    <p class="text"><i class="fa fa-puzzle-piece"></i> Shard <b><%= guild.shard %></b></p>
-                                    <p class="text"><i class="fa fa-users"></i> <%= Number(guild.memberCount).toLocaleString() %> <b>Members</b></p>
-                                    <p class="text"><i class="fa fa-tags"></i> <%= guild.roles.length %> <b>Roles</b></p>
-                                    <p class="text"><i class="fa fa-microphone"></i> <%= guild.channels.filter(c => c.type === "voice").length %> <b>Voice Channels</b></p>
-                                    <p class="text"><i class="fa fa-hashtag"></i> <%= guild.channels.filter(c => c.type === "text").length %> <b>Text Channels</b></p>
+                                    <p class="text"><i class="fa fa-puzzle-piece"></i> 2 <b>Beeps</b></p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="box">
                         <p class="title">Actions</p>
                         <hr class="separate">
 
                         <ul class="guild-actions">
-                            <li><a href="/guilds/<%= guild.id %>/settings"><i class="fa fa-cog"></i> Edit Settings</a></li>
-                            <li><a href="/guilds/<%= guild.id %>/modlogs"><i class="fa fa-eye"></i> View Recent Moderation Logs</a></li>
-                            <li><a href="/guilds/<%= guild.id %>/something"><i class="fa fa-question"></i> Something</a></li>
-                            <li><a href="/guilds/<%= guild.id %>/something"><i class="fa fa-question"></i> Something</a></li>
-                            <li><a href="/guilds/<%= guild.id %>/something"><i class="fa fa-question"></i> Something</a></li>
-                            <li><a href="/guilds/<%= guild.id %>/something"><i class="fa fa-question"></i> Something</a></li>
+                            <li>
+                                <% if (user.lightTheme) { %>
+                                    <a href="/user/theme/dark"><i class="fa fa-cog"></i> Theme: Switch to Dark</a>
+                                <% } else { %>
+                                    <a href="/user/theme/light"><i class="fa fa-cog"></i> Theme: Switch to Light</a>
+                                <% } %>
+                            </li>
+                            <% if (user.apitoken) { %>
+                                <li><a><i class="fa fa-cog"></i> API Token: <%= user.apitoken %></a></li>
+                            <% } %>
+                            
                         </ul>
                     </div>
                     
@@ -100,16 +98,3 @@
         </div>
     </body>
 </html>
-
-<script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
-    $('.popover-dismiss').popover({
-        trigger: 'focus'
-    })
-    $('.leave').popover({
-        html: true,
-        content: `<a data-leave data-leave-yes href="/guilds/<%= guild.id %>/leave">Leave</a>`
-    })
-</script>

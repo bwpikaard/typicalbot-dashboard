@@ -104,36 +104,36 @@ new class extends express {
                                                            - - - - - - - - - -
         */
 
-        async function checkGuild(guild, user) {
+        this.checkGuild = async function(guild, user) {
             try {
-                const res = await request.get(`${api}/guilds/${guild.id}`).set("token", this.config.apitoken);
+                const res = await request.get(`${api}/guilds/${guild.id}`).set("Authentication", this.config.apitoken);
             } catch (err) {
                 guild.isMember = false;
                 if (new Discord.Permissions(guild.permissions).has("MANAGE_GUILD")) return guild;
             }
 
             try {
-                const res = await request.get(`${api}/guilds/${guild.id}/users/${user.id}`).set("token", this.config.apitoken);
+                const res = await request.get(`${api}/guilds/${guild.id}/users/${user.id}`).set("Authentication", this.config.apitoken);
                 guild.isMember = true;
                 if (res.body.permissions.level >= 2) return guild;
             } catch (err) { return undefined; }
 
             return undefined;
-        }
+        };
 
-        async function fetchUserData(user) {
+        this.fetchUserData = async function(user) {
             const guilds = user.guilds;
 
-            const data = (await Promise.all(guilds.map(g => checkGuild(g, user)))).filter(i => i);
+            const data = (await Promise.all(guilds.map(g => this.checkGuild(g, user)))).filter(i => i);
 
             return data;
-        }
+        };
 
         this.get("/", async (req, res, next) => {
             if (!req.isAuthenticated()) return next();
             if (req.query.guild_id) return res.redirect(`/guilds/${req.query.guild_id}`);
 
-            const userData = await fetchUserData(req.user);
+            const userData = await this.fetchUserData(req.user);
 
             res.render(template("landing/index.ejs"), {
                 user: req.user,
@@ -150,7 +150,7 @@ new class extends express {
         this.get("/documentation", async (req, res, next) => {
             if (!req.isAuthenticated()) return next();
 
-            const userData = await fetchUserData(req.user);
+            const userData = await this.fetchUserData(req.user);
 
             res.render(template("landing/documentation.ejs"), {
                 user: req.user,
@@ -164,8 +164,18 @@ new class extends express {
             });
         });
 
+        this.get("/user", isAuthenticated, async (req, res) => {
+            const userData = await this.fetchUserData(req.user);
+
+            res.render(template("landing/user.ejs"), {
+                user: req.user,
+                auth: req.isAuthenticated(),
+                guilds: userData
+            });
+        });
+
         this.get("/guilds", isAuthenticated, async (req, res) => {
-            const userData = await fetchUserData(req.user);
+            const userData = await this.fetchUserData(req.user);
 
             res.render(template("landing/guilds.ejs"), {
                 user: req.user,
@@ -180,10 +190,10 @@ new class extends express {
             const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
             if (!userInGuild) return res.redirect("/access-denied");
 
-            const userData = await fetchUserData(req.user);
+            const userData = await this.fetchUserData(req.user);
 
-            request.get(`${api}/guilds/${guild}`).set("token", this.config.apitoken).then(guildData => {
-                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("token", this.config.apitoken).then(dataUser => {
+            request.get(`${api}/guilds/${guild}`).set("Authentication", this.config.apitoken).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("Authentication", this.config.apitoken).then(dataUser => {
                     if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
 
                     res.render(template("landing/guild/guild.ejs"), {
@@ -207,13 +217,13 @@ new class extends express {
             const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
             if (!userInGuild) return res.redirect("/access-denied");
 
-            const userData = await fetchUserData(req.user);
+            const userData = await this.fetchUserData(req.user);
 
-            request.get(`${api}/guilds/${guild}`).set("token", this.config.apitoken).then(guildData => {
-                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("token", this.config.apitoken).then(dataUser => {
+            request.get(`${api}/guilds/${guild}`).set("Authentication", this.config.apitoken).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("Authentication", this.config.apitoken).then(dataUser => {
                     if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
 
-                    request.post(`${api}/guilds/${guild}/leave`).set("token", this.config.apitoken).then(() => {
+                    request.post(`${api}/guilds/${guild}/leave`).set("Authentication", this.config.apitoken).then(() => {
                         res.redirect("/");
                     }).catch(err => {
                         res.redirect("/access-denied");
@@ -233,10 +243,10 @@ new class extends express {
             const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
             if (!userInGuild) return res.redirect("/access-denied");
 
-            const userData = await fetchUserData(req.user);
+            const userData = await this.fetchUserData(req.user);
 
-            request.get(`${api}/guilds/${guild}`).set("token", this.config.apitoken).then(guildData => {
-                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("token", this.config.apitoken).then(dataUser => {
+            request.get(`${api}/guilds/${guild}`).set("Authentication", this.config.apitoken).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).set("Authentication", this.config.apitoken).then(dataUser => {
                     if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
 
                     res.render(template("landing/guild/settings.ejs"), {
