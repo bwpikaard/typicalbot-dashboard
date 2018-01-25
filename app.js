@@ -1,17 +1,17 @@
-const express = require("express");
-const session = require("express-session");
-const passport = require("passport");
-const { Strategy } = require("passport-discord");
-const bodyParser = require("body-parser");
-const fs = require("fs");
-const crypto = require("crypto");
+const express       = require("express");
+const session       = require("express-session");
+const passport      = require("passport");
+const { Strategy }  = require("passport-discord");
+const bodyParser    = require("body-parser");
+const fs            = require("fs");
+const crypto        = require("crypto");
 
-const request = require("snekfetch");
+const request       = require("snekfetch");
 
-const url = require("url");
-const path = require("path");
+const url           = require("url");
+const path          = require("path");
 
-const { Permissions, Collection } = require("discord.js");
+const Discord       = require("discord.js");
 
 function page(req_path) { return path.join(__dirname, "content", "templates", req_path); }
 
@@ -27,7 +27,7 @@ new class extends express {
 
         this.config = require("./config");
 
-        this.users = new Collection();
+        this.users = new Discord.Collection();
 
         passport.serializeUser((id, done) => { done(null, id); });
         passport.deserializeUser((id, done) => { done(null, this.users.get(id)); });
@@ -114,7 +114,7 @@ new class extends express {
                 const res = await request.get(`${api}/guilds/${guild.id}`);
             } catch (err) {
                 guild.isMember = false;
-                if (new Permissions(guild.permissions).has("MANAGE_GUILD")) return guild;
+                if (new Discord.Permissions(guild.permissions).has("MANAGE_GUILD")) return guild;
             }
 
             try {
@@ -199,7 +199,7 @@ new class extends express {
                     });
                 }).catch(console.error);
             }).catch(err => {
-                const userPerms = new Permissions(userInGuild.permissions);
+                const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
                 res.redirect(OAuth(this.config.clientID, guild));
@@ -225,7 +225,7 @@ new class extends express {
                     });
                 }).catch(console.error);
             }).catch(err => {
-                const userPerms = new Permissions(userInGuild.permissions);
+                const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
                 res.redirect(OAuth(this.config.clientID, guild));
@@ -252,7 +252,7 @@ new class extends express {
                     });
                 }).catch(console.error);
             }).catch(err => {
-                const userPerms = new Permissions(userInGuild.permissions);
+                const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
                 res.redirect(OAuth(this.config.clientID, guild));
