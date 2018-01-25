@@ -18,7 +18,7 @@ function OAuth(client, guild) { return `https://discordapp.com/oauth2/authorize?
 
 const User = require("./structures/User");
 
-const api = "http://pcoh.ddns.net:5000"; //"http://localhost:5000";
+const api = "http://localhost:5000";//"http://pcoh.ddns.net:5000"; //"http://localhost:5000";
 
 new class extends express {
     constructor() {
