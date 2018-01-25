@@ -12,6 +12,8 @@ const path          = require("path");
 
 const crypto        = require("crypto");
 
+const tokens        = require("./tokens");
+
 function template(req) { return path.join(__dirname, "content", "templates", req); }
 
 const User = require("./structures/User");
@@ -49,7 +51,10 @@ new class extends express {
                 return !!data.staff;
             }).catch(err => { return false; });
         }
-        //function isApplication (req, res, next) { if (req.headers.authorization && req.headers.authorization === "HyperCoder#2975") return next(); res.status(401).json({ "message": "Unauthorized" }); }
+        function isApplication (req, res, next) {
+            if (req.get("Authentication") && tokens.filter(u => u.token === req.get("Authentication")[0])) return next();
+            
+            res.status(401).json({ "message": "Unauthorized" }); }
 
         /*
                                                            - - - - - - - - - -
@@ -324,19 +329,19 @@ new class extends express {
             });
         }
 
-        this.get("/api", (req, res) => {
+        this.get("/api", isApplication, (req, res) => {
             res.json({"code": 0, "message": "404: Not Found"});
         });
 
-        this.get("/api/stats", async (req, res) => {
+        this.get("/api/stats", isApplication, async (req, res) => {
             res.json({"message": await grabLine("quotes") });
         });
 
-        this.get("/api/quotes", async (req, res) => {
+        this.get("/api/quotes", isApplication, async (req, res) => {
             res.json({"message": await grabLine("quotes") });
         });
 
-        this.get("/api/*", (req, res) => {
+        this.get("/api/*", isApplication, (req, res) => {
             res.json({"code": 0, "message": "404: Not Found"});
         });
 
