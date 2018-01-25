@@ -233,7 +233,7 @@ new class extends express {
                 const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
-                res.redirect(`${this.invite}&guild_id=${guild.id}`);
+                res.redirect(`${this.invite}&guild_id=${guild}`);
             });
         });
 
@@ -260,7 +260,7 @@ new class extends express {
                 const userPerms = new Discord.Permissions(userInGuild.permissions);
                 if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
 
-                res.redirect(`${this.invite}&guild_id=${guild.id}`);
+                res.redirect(`${this.invite}&guild_id=${guild}`);
             });
         });
 
