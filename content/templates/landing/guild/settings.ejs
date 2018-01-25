@@ -2,11 +2,11 @@
 
 <html>
     <head>
-        <%- include("../pieces/head.ejs") %>
-        <title>Home – TypicalBot</title>
+        <%- include("../../pieces/head.ejs") %>
+        <title><%= guild.name %> – TypicalBot</title>
     </head>
     <body>
-        <%- include("../pieces/navigation.ejs") %>
+        <%- include("../../pieces/navigation.ejs") %>
 
         <div class="frame row">
             <% if (auth) { %>
@@ -53,19 +53,31 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/guilds">Guilds</a></li>
+                            <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>"><%= guild.name %></a></li>
+                            <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>/settings">Settings</a></li>
                         </ol>
                     </nav>
-                    <div class="jumbotron">
-                        <h1 class="display-4" id="ignoretheme">What is TypicalBot? <img src="/x/images/think.png" height=40 class="align-center"></h1>
-                        <hr class="my-4">
-                        <p class="lead" id="ignoretheme">It is a <i>typical</i> bot, of course!<i>...psych!</i></p>
-                        <br>
-                        <p class="lead" id="ignoretheme">Built upon over a year of experience, TypicalBot is the ironically-named bot that is far from typical. Stable, lightning fast, and easy to use, TypicalBot is there for you and will seamlessly help you moderate your server and offer some entertaining features for your users, every step of the way.</p>
-                    </div>
+                    
+                    <div class="box">
+                        <p class="title">Settings</p>
+                        <hr class="separate">
 
+                        <h1>Blah blah blah</h1>
+                    </div>
+                    
                     <hr class="my-4">
                 </div>
             </div>
         </div>
     </body>
 </html>
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+    $('.popover-dismiss').popover({
+        trigger: 'focus'
+    })
+</script>

@@ -27,7 +27,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="/user"><i class="fa fa-user"></i> User Profile</a>
-                        <!--<a class="dropdown-item" href="#"><i class="fa fa-flag"></i> Staff Panel</a>-->
+                        <% if (user.staff) { %>
+                            <a class="dropdown-item" href="#"><i class="fa fa-flag"></i> Staff Panel</a>
+                        <% } %>
                         <div class="dropdown-divider"></div>
                         <% if (user.lightTheme) { %>
                             <a class="dropdown-item" href="/user/theme/dark">Switch to Dark</a>

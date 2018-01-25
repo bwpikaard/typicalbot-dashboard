@@ -5,7 +5,7 @@ const { Strategy } = require("passport-discord");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 
-const request = require("superagent");
+const request = require("snekfetch");
 
 const url = require("url");
 const path = require("path");
@@ -14,7 +14,11 @@ const { Permissions, Collection } = require("discord.js");
 
 function page(req_path) { return path.join(__dirname, "content", "templates", req_path); }
 
+function OAuth(client, guild) { return `https://discordapp.com/oauth2/authorize?client_id=${client}&permissions=8&scope=bot&redirect_uri=http://dev.typicalbot.com:3000/&response_type=code&guild_id=${guild}`; }
+
 const User = require("./structures/User");
+
+const api = "http://pcoh.ddns.net:5000"; //"http://localhost:5000";
 
 new class extends express {
     constructor() {
@@ -41,7 +45,14 @@ new class extends express {
         this.set("view engine", "html");
 
         function isAuthenticated(req, res, next) { if (req.isAuthenticated()) return next(); req.session.backURL = req.url; res.redirect("/auth/login"); }
-        //function isStaff(req, res, next) { if (req.isAuthenticated() && master.staff(req.user.id)) return next(); req.session.backURL = req.url; res.redirect("/"); }
+        function isStaff(user) {
+            request.get(`${api}/users/${user.id}`).end((err, res) => {
+                if (err) return false;
+
+                const data = res.body;
+                return !!data.staff;
+            });
+        }
         //function isApplication (req, res, next) { if (req.headers.authorization && req.headers.authorization === "HyperCoder#2975") return next(); res.status(401).json({ "message": "Unauthorized" }); }
 
         /*
@@ -97,37 +108,29 @@ new class extends express {
                                                            - - - - - - - - - -
         */
 
+        async function checkGuild(guild, user) {
+            try {
+                const res = await request.get(`${api}/guilds/${guild.id}`);
+            } catch (err) {
+                guild.isMember = false;
+                if (new Permissions(guild.permissions).has("MANAGE_GUILD")) return guild;
+            }
+            
+            try {
+                const res = await request.get(`${api}/guilds/${guild.id}/users/${user.id}`);
+                guild.isMember = true;
+                if (res.body.permissions.level >= 2) return guild;
+            } catch (err) { return undefined; }
+    
+            return undefined;
+        }
+
         async function fetchUserData(user) {
-            return new Promise(async (resolve, reject) => {
-                const guilds = user.guilds;
-                const data = [];
-
-                guilds.forEach((guild, i) => {
-                    request.get(`http://localhost:5000/guilds/${guild.id}`).end((err, res) => {
-                        if (err) {
-                            guild.isMember = false;
-                            if (new Permissions(guild.permissions).has("MANAGE_GUILD")) data.push(guild);
-
-                            if (i + 1 === user.guilds.length) setTimeout(() => {
-                                resolve(data);
-                            }, 200);
-                        } else {
-                            request.get(`http://localhost:5000/guilds/${guild.id}/users/${user.id}`).end((err2, res2) => {
-                                if (err2) {
-                                    console.log(err2.body);
-                                } else {
-                                    guild.isMember = true;
-                                    if (res2.body.permissions.level >= 2) data.push(guild);
-                                }
-
-                                if (i + 1 === user.guilds.length) setTimeout(() => {
-                                    resolve(data);
-                                }, 200);
-                            });
-                        }
-                    });
-                });
-            });
+            const guilds = user.guilds;
+            
+            const data = (await Promise.all(guilds.map(g => checkGuild(g, user)))).filter(i => i);
+    
+            return data;
         }
 
         this.get("/", async (req, res, next) => {
@@ -161,6 +164,70 @@ new class extends express {
             res.render(page("landing/documentation.ejs"), {
                 user: req.user,
                 auth: req.isAuthenticated()
+            });
+        });
+
+        this.get("/guilds", isAuthenticated, async (req, res) => {
+            const userData = await fetchUserData(req.user);
+
+            res.render(page("landing/guilds.ejs"), {
+                user: req.user,
+                auth: req.isAuthenticated(),
+                guilds: userData
+            });
+        });
+
+        this.get("/guilds/:guild", isAuthenticated, async (req, res) => {
+            const guild = req.params.guild;
+
+            const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
+            if (!userInGuild) return res.redirect("/access-denied");
+
+            const userData = await fetchUserData(req.user);
+
+            request.get(`${api}/guilds/${guild}`).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).then(dataUser => {
+                    if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
+
+                    res.render(page("landing/guild/guild.ejs"), {
+                        user: req.user,
+                        auth: req.isAuthenticated(),
+                        guilds: userData,
+                        guild: guildData.body.guild
+                    });
+                }).catch(console.error);
+            }).catch(err => {
+                const userPerms = new Permissions(userInGuild.permissions);
+                if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
+
+                res.redirect(OAuth(this.config.clientID, guild));
+            });
+        });
+
+        this.get("/guilds/:guild/settings", isAuthenticated, async (req, res) => {
+            const guild = req.params.guild;
+
+            const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
+            if (!userInGuild) return res.redirect("/access-denied");
+
+            const userData = await fetchUserData(req.user);
+
+            request.get(`${api}/guilds/${guild}`).then(guildData => {
+                request.get(`${api}/guilds/${guild}/users/${req.user.id}`).then(dataUser => {
+                    if (dataUser.body.permissions.level < 2) return res.redirect("/access-denied");
+
+                    res.render(page("landing/guild/settings.ejs"), {
+                        user: req.user,
+                        auth: req.isAuthenticated(),
+                        guilds: userData,
+                        guild: guildData.body.guild
+                    });
+                }).catch(console.error);
+            }).catch(err => {
+                const userPerms = new Permissions(userInGuild.permissions);
+                if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
+
+                res.redirect(OAuth(this.config.clientID, guild));
             });
         });
 
@@ -222,6 +289,10 @@ new class extends express {
 
         this.get("/api", (req, res) => {
             res.json({"code": 0, "message": "404: Not Found"});
+        });
+
+        this.get("/api/stats", async (req, res) => {
+            res.json({"message": await grabLine("quotes") });
         });
 
         this.get("/api/quotes", async (req, res) => {
