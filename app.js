@@ -318,15 +318,13 @@ new class extends express {
         }
 
         async function grabLine(file) {
-            file = path.join(__dirname, "/data", file, ".txt");
+            file = path.join(__dirname, "/data", `${file}.txt`);
 
-            fs.readFile(file, (err, data) => {
-                if (err) throw err;
+            const data = fs.readFileSync(file, "utf8");
 
-                const lines = data.split("\n");
-                const line = lines[Math.floor(Math.random() * lines.length)];
-                return line;
-            });
+            const lines = data.split(/\r?\n/);
+            const line = lines[Math.floor(Math.random() * lines.length)];
+            return line;
         }
 
         this.get("/api", isApplication, (req, res) => {
@@ -334,11 +332,15 @@ new class extends express {
         });
 
         this.get("/api/stats", isApplication, async (req, res) => {
-            res.json({"message": await grabLine("quotes") });
+            res.json({"data": await grabLine("quotes") });
         });
 
         this.get("/api/quotes", isApplication, async (req, res) => {
-            res.json({"message": await grabLine("quotes") });
+            res.json({"data": await grabLine("quotes") });
+        });
+
+        this.get("/api/jokes", isApplication, async (req, res) => {
+            res.json({"data": await grabLine("jokes") });
         });
 
         this.get("/api/*", isApplication, (req, res) => {
