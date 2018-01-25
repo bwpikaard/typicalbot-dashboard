@@ -219,7 +219,6 @@ new class extends express {
                     request.post(`${api}/guilds/${guild}/leave`).send({ token: this.config.token }).then(() => {
                         res.redirect("/");
                     }).catch(err => {
-                        console.log(err);
                         res.redirect("/access-denied");
                     });
                 }).catch(console.error);
