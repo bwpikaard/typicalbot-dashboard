@@ -14,7 +14,7 @@ const { Permissions, Collection } = require("discord.js");
 
 function page(req_path) { return path.join(__dirname, "content", "templates", req_path); }
 
-function OAuth(client, guild) { return `https://discordapp.com/oauth2/authorize?client_id=166527505610702848&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code&guild_id=${guild}`; }
+function OAuth(client, guild) { return `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code&guild_id=${guild}`; }
 
 const User = require("./structures/User");
 
