@@ -54,7 +54,7 @@ new class extends express {
         function isApplication (req, res, next) {
             if (req.get("Authentication") && Object.keys(tokens).filter(u => tokens[u].token === req.get("Authentication")[0])) return next();
             
-            res.status(401).json({ "message": "Unauthorized" }); }
+            res.status(401).json({ "message": "Unauthorized", "resolution": "Supply an 'Authentication' header with your API token." }); }
 
         /*
                                                            - - - - - - - - - -
