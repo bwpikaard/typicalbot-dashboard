@@ -52,7 +52,7 @@ new class extends express {
             }).catch(err => { return false; });
         }
         function isApplication (req, res, next) {
-            if (req.get("Authentication") && tokens.filter(u => u.token === req.get("Authentication")[0])) return next();
+            if (req.get("Authentication") && Object.keys(tokens).filter(u => tokens[u].token === req.get("Authentication")[0])) return next();
             
             res.status(401).json({ "message": "Unauthorized" }); }
 
