@@ -357,7 +357,7 @@ new class extends express {
             const dir = path.join(__dirname, "data", "tigers");
             const files = await fsn.readdir(dir);
 
-            return await fsn.readFile(files[Math.round(files.length * Math.random())]);
+            return await fsn.readFile(`${dir}/` + files[Math.round(files.length * Math.random())]);
         }
 
         this.get("/api/tiger", isApplication, async (req, res) => {
