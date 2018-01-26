@@ -328,7 +328,7 @@ new class extends express {
             return line;
         }
 
-        this.get("/api", isApplication, (req, res) => {
+        this.get("/api", (req, res) => {
             res.json({ "code": 0, "message": "404: Not Found" });
         });
 
@@ -364,7 +364,7 @@ new class extends express {
             res.json({ "data": await fetchTiger() });
         });
 
-        this.get("/api/*", isApplication, (req, res) => {
+        this.get("/api/*", (req, res) => {
             res.json({"code": 0, "message": "404: Not Found" });
         });
 
