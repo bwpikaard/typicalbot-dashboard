@@ -58,7 +58,7 @@
                 </nav>
                 <div <% if (!auth) { %> class="container" <% } %>>
                     
-                    <div class="box">
+                    <div class="box" id="ignoretheme">
                         <p class="title">Information</p>
                         <hr class="separate">
 
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     
-                    <div class="box">
+                    <div class="box" id="ignoretheme">
                         <p class="title">Actions</p>
                         <hr class="separate">
 
@@ -102,9 +102,7 @@
 </html>
 
 <script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
+    $(function () { $("[data-toggle=\"popover\"]").popover() })
     $('.popover-dismiss').popover({
         trigger: 'focus'
     })

@@ -8,11 +8,22 @@ body {
 nav ul .nav-link:hover {
     background-color: #00adff;
 }
+
+.frame .frame-nav {
+    background-color: #262626;
+    box-shadow: 0 5px 10px -5px #333 inset;
+}
+.frame .frame-page-scroll::-webkit-scrollbar-thumb {
+    background-color: #333;
+}
 .docs .nav-link {
     color: #333;
 }
 
 #ignoretheme {
+    color: black;
+}
+#ignoretheme p, #ignoretheme a {
     color: black;
 }
 

@@ -57,6 +57,20 @@ nav ul .dropdown-menu .dropdown-item {
     color: black !important;
 }
 
+.alert-primary {
+    background-color: #00adff;
+    color: white;
+}
+.alert-primary a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s linear !important;
+}
+.alert-primary a:hover {
+    color: #adcfdf;
+}
+
 .breadcrumb .breadcrumb-item a,
 .breadcrumb .breadcrumb-item {
     color: black !important;
@@ -98,6 +112,9 @@ nav ul .dropdown-menu .dropdown-item {
 .frame-nav .my-2 {
     border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
 }
+.frame-nav {
+    box-shadow: 0 5px 10px -5px #00adff inset;
+}
 .frame-nav .title {
     color: white;
     font-size: 20px;
@@ -117,13 +134,6 @@ nav ul .dropdown-menu .dropdown-item {
     color: white;
     border-radius: 4px;
     transition: color 0.25s linear;
-}
-.frame-nav .guilds li a i[id="invite"] {
-    float: right;
-    height: 30px;
-    line-height: 30px;
-    color: white !important;
-
 }
 .frame-nav .guilds li a:hover {
     color: #adcfdf;
@@ -225,7 +235,7 @@ code[id="input"] {
     text-decoration: none;
     background-color: rgb(202, 60, 60);;
     padding: 6px 0;
-    color: white;
+    color: white !important;
     width: 18%;
     transition: background 0.25s linear !important;
 }
@@ -254,10 +264,10 @@ a[data-leave] {
     margin: 20px;
 }
 .frame-page .guild-actions li a {
-    color: #00adff;
+    color: #00adff !important;
     text-decoration: none;
     transition: color 0.25s linear !important;
 }
 .frame-page .guild-actions li a:hover {
-    color: #1592cd;
+    color: #1592cd !important;
 }

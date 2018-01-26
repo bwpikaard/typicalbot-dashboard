@@ -57,7 +57,7 @@
                 </nav>
                 <div <% if (!auth) { %> class="container" <% } %>>
                     
-                    <div class="box">
+                    <div class="box" id="ignoretheme">
                         <p class="title">Information</p>
                         <hr class="separate">
 
@@ -66,27 +66,31 @@
                                 <img class="align-top" src="<%= user.avatarURL ? user.avatarURL : "" %>">
                                 <div class="info">
                                     <p bold style="font-size: 22px;"><%= user.username %>#<%= user.discriminator %></p>
+                                    <p class="text"><%= user.id %></p>
                                     <hr class="my-2">
-                                    <p class="text"><i class="fa fa-puzzle-piece"></i> 2 <b>Beeps</b></p>
+                                    <% if (user.staff) { %>
+                                        <p class="text"><i class="fa fa-id-card"></i> <b>TypicalBot Staff</b></p>
+                                    <% } %>
+                                    <p class="text"><i class="fa fa-users"></i> <%= user.guilds.length %> <b>Servers</b></p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="box">
+                    <div class="box" id="ignoretheme">
                         <p class="title">Actions</p>
                         <hr class="separate">
 
                         <ul class="guild-actions">
                             <li>
                                 <% if (user.lightTheme) { %>
-                                    <a href="/user/theme/dark"><i class="fa fa-cog"></i> Theme: Switch to Dark</a>
+                                    <a href="/user/theme/dark"><i class="fa fa-moon-o"></i> Theme: Switch to Dark</a>
                                 <% } else { %>
-                                    <a href="/user/theme/light"><i class="fa fa-cog"></i> Theme: Switch to Light</a>
+                                    <a href="/user/theme/light"><i class="fa fa-sun-o"></i> Theme: Switch to Light</a>
                                 <% } %>
                             </li>
                             <% if (user.apitoken) { %>
-                                <li><a><i class="fa fa-cog"></i> API Token: <%= user.apitoken %></a></li>
+                                <li><a data-toggle="tooltip" data-placement="top" title="Do not share this with other users!"><i class="fa fa-link"></i> API Token: <%= user.apitoken %></a></li>
                             <% } %>
                             
                         </ul>
@@ -98,3 +102,7 @@
         </div>
     </body>
 </html>
+
+<script>
+    $("[data-toggle=tooltip").tooltip();
+</script>

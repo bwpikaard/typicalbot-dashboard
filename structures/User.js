@@ -23,7 +23,7 @@ module.exports = class {
     fetchLevel() {
         request.get(`${config.api}/guilds/163038706117115906/users/${this.id}`).set("Authentication", config.apitoken)
             .then(data => {
-                this.staff = data.body.permission.level >= 8;
+                this.staff = data.body.permissions.level >= 8;
             }).catch(err => {
                 this.staff = false;
             });
