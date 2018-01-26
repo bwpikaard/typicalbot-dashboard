@@ -14,9 +14,9 @@ const crypto        = require("crypto");
 
 const tokens        = require("./tokens");
 
-function template(req) { return path.join(__dirname, "content", "templates", req); }
-
 const User = require("./structures/User");
+
+function template(req) { return path.join(__dirname, "content", "templates", req); }
 
 new class extends express {
     constructor() {
@@ -346,6 +346,16 @@ new class extends express {
 
         this.get("/api/jokes", isApplication, async (req, res) => {
             res.json({"data": await grabLine("jokes") });
+        });
+
+        this.get("/api/yomomma", isApplication, async (req, res) => {
+            res.json({"data": await grabLine("yomomma") });
+        });
+
+        this.get("/api/tiger", isApplication, async (req, res) => {
+            fs.readFile(path.join(__dirname, "data", "tigers", "tiger1.png"), function(err, data) {
+                res.json({ data });
+            });
         });
 
         this.get("/api/*", isApplication, (req, res) => {
