@@ -6,6 +6,7 @@ const bodyParser    = require("body-parser");
 const Discord       = require("discord.js");
 
 const fs            = require("fs");
+const fsn           = require("fs-nextra");
 const request       = require("snekfetch");
 const url           = require("url");
 const path          = require("path");
@@ -328,7 +329,7 @@ new class extends express {
         }
 
         this.get("/api", isApplication, (req, res) => {
-            res.json({"code": 0, "message": "404: Not Found"});
+            res.json({ "code": 0, "message": "404: Not Found" });
         });
 
         this.get("/api/stats", isApplication, async (req, res) => {
@@ -341,25 +342,30 @@ new class extends express {
         });
 
         this.get("/api/quotes", isApplication, async (req, res) => {
-            res.json({"data": await grabLine("quotes") });
+            res.json({ "data": await grabLine("quotes") });
         });
 
         this.get("/api/jokes", isApplication, async (req, res) => {
-            res.json({"data": await grabLine("jokes") });
+            res.json({ "data": await grabLine("jokes") });
         });
 
         this.get("/api/yomomma", isApplication, async (req, res) => {
-            res.json({"data": await grabLine("yomomma") });
+            res.json({ "data": await grabLine("yomomma") });
         });
 
+        async function fetchTiger() {
+            const dir = path.join(__dirname, "data", "tigers");
+            const files = await fsn.readdir(dir);
+
+            return await fsn.readFile(files[Math.round(files.length * Math.random())]);
+        }
+
         this.get("/api/tiger", isApplication, async (req, res) => {
-            fs.readFile(path.join(__dirname, "data", "tigers", "tiger1.png"), function(err, data) {
-                res.json({ data });
-            });
+            res.json({ "data": await fetchTiger() });
         });
 
         this.get("/api/*", isApplication, (req, res) => {
-            res.json({"code": 0, "message": "404: Not Found"});
+            res.json({"code": 0, "message": "404: Not Found" });
         });
 
         /*
