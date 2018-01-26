@@ -1,6 +1,7 @@
 const { Permissions }   = require("discord.js");
 const tokens            = require("../tokens");
 const request           = require("snekfetch");
+const config            = require("../config");
 
 module.exports = class {
     constructor(profile) {
@@ -20,7 +21,7 @@ module.exports = class {
     }
 
     fetchLevel() {
-        request.get(`${this.config.api}/guilds/163038706117115906/users/${this.id}`).set("Authentication", this.config.apitoken)
+        request.get(`${config.api}/guilds/163038706117115906/users/${this.id}`).set("Authentication", this.config.apitoken)
             .then(data => {
                 this.staff = data.body.permission.level >= 8;
             }).catch(err => {
