@@ -346,7 +346,7 @@ new class extends express {
 
         /**
          * @api {get} /stats Statistics
-         * @apiVersion 0.0.1
+         * @apiVersion 1.0.0
          * @apiName Statistics
          * @apiGroup TypicalBot
          * @apiHeader Authentication TypicalBot API token.
@@ -364,7 +364,7 @@ new class extends express {
 
         /**
          * @api {get} /quote Quotes
-         * @apiVersion 0.0.1
+         * @apiVersion 1.0.0
          * @apiName Quotes
          * @apiGroup TypicalBot
          * @apiHeader Authentication TypicalBot API token.
@@ -377,7 +377,7 @@ new class extends express {
 
         /**
          * @api {get} /joke Jokes
-         * @apiVersion 0.0.1
+         * @apiVersion 1.0.0
          * @apiName Jokes
          * @apiGroup TypicalBot
          * @apiHeader Authentication TypicalBot API token.
@@ -390,7 +390,7 @@ new class extends express {
 
         /**
          * @api {get} /yomomma Yomomma Jokes
-         * @apiVersion 0.0.1
+         * @apiVersion 1.0.0
          * @apiName Yomomma Jokes
          * @apiGroup TypicalBot
          * @apiHeader Authentication TypicalBot API token.
@@ -403,7 +403,7 @@ new class extends express {
 
         /**
          * @api {get} /tiger Tigers
-         * @apiVersion 0.0.1
+         * @apiVersion 1.0.0
          * @apiName Tigers
          * @apiGroup TypicalBot
          * @apiHeader Authentication TypicalBot API token.

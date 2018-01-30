@@ -1,6 +1,6 @@
 {
   "name": "TypicalBot API",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "An API for the TypicalBot Dashboard.",
   "title": "TypicalBot API",
   "url": "https://dashboard.typicalbot.com/api/v1",
@@ -9,7 +9,7 @@
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2018-01-30T23:06:38.845Z",
+    "time": "2018-01-30T23:17:15.901Z",
     "url": "http://apidocjs.com",
     "version": "0.17.6"
   }

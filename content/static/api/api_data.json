@@ -31,7 +31,7 @@
     "type": "get",
     "url": "/joke",
     "title": "Jokes",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "Jokes",
     "group": "TypicalBot",
     "header": {
@@ -41,7 +41,7 @@
             "group": "Header",
             "optional": false,
             "field": "Authentication",
-            "description": "<p>token</p>"
+            "description": "<p>TypicalBot API token.</p>"
           }
         ]
       }
@@ -58,7 +58,7 @@
     "type": "get",
     "url": "/quote",
     "title": "Quotes",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "Quotes",
     "group": "TypicalBot",
     "header": {
@@ -68,7 +68,7 @@
             "group": "Header",
             "optional": false,
             "field": "Authentication",
-            "description": "<p>token</p>"
+            "description": "<p>TypicalBot API token.</p>"
           }
         ]
       }
@@ -85,7 +85,7 @@
     "type": "get",
     "url": "/stats",
     "title": "Statistics",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "Statistics",
     "group": "TypicalBot",
     "header": {
@@ -95,7 +95,7 @@
             "group": "Header",
             "optional": false,
             "field": "Authentication",
-            "description": "<p>token</p>"
+            "description": "<p>TypicalBot API token.</p>"
           }
         ]
       }
@@ -112,7 +112,7 @@
     "type": "get",
     "url": "/tiger",
     "title": "Tigers",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "Tigers",
     "group": "TypicalBot",
     "header": {
@@ -122,7 +122,7 @@
             "group": "Header",
             "optional": false,
             "field": "Authentication",
-            "description": "<p>token</p>"
+            "description": "<p>TypicalBot API token.</p>"
           }
         ]
       }
@@ -139,7 +139,7 @@
     "type": "get",
     "url": "/yomomma",
     "title": "Yomomma Jokes",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "Yomomma_Jokes",
     "group": "TypicalBot",
     "header": {
@@ -149,7 +149,7 @@
             "group": "Header",
             "optional": false,
             "field": "Authentication",
-            "description": "<p>token</p>"
+            "description": "<p>TypicalBot API token.</p>"
           }
         ]
       }
