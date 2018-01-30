@@ -314,6 +314,11 @@ new class extends express {
                                                            - - - - - - - - - -
         */
 
+        function GET(req, res, next) {
+            if (req.method === "GET") return next();
+            return res.status().json({ "message": "Method Not Supported" });
+        } 
+
         function tokenGen() {
             return crypto.randomBytes(20).toString("base64");
         }
@@ -328,11 +333,26 @@ new class extends express {
             return line;
         }
 
-        this.get("/api", (req, res) => {
-            res.json({ "code": 0, "message": "404: Not Found" });
+        async function fetchTiger() {
+            const dir = path.join(__dirname, "data", "tigers");
+            const files = await fsn.readdir(dir);
+
+            return await fsn.readFile(`${dir}/` + files[Math.round(files.length * Math.random())]);
+        }
+
+        this.all("/api/v1", (req, res) => {
+            res.json({ "message": "No Content" });
         });
 
-        this.get("/api/stats", isApplication, async (req, res) => {
+        /**
+         * @api {get} /stats Fetch TypicalBot's Statistics
+         * @apiVersion 0.0.1
+         * @apiName Statistics
+         * @apiHeader token token
+         * @apiSampleRequest /stats
+         */
+
+        this.all("/api/stats", isApplication, GET, async (req, res) => {
             request.get(`${this.config.api}/stats`).set("Authentication", this.config.apitoken).then(data => {
                 return res.json({ data: data.body });
             }).catch(err => {
@@ -341,31 +361,32 @@ new class extends express {
             });
         });
 
-        this.get("/api/quotes", isApplication, async (req, res) => {
+        /**
+         * @api {get} /quote Fetch a Quote
+         * @apiVersion 0.0.1
+         * @apiName Quotes
+         * @apiHeader token token
+         * @apiSampleRequest /stats
+         */
+
+        this.get("/api/v1/quote", isApplication, GET, async (req, res) => {
             res.json({ "data": await grabLine("quotes") });
         });
 
-        this.get("/api/jokes", isApplication, async (req, res) => {
+        this.get("/api/v1/joke", isApplication, GET, async (req, res) => {
             res.json({ "data": await grabLine("jokes") });
         });
 
-        this.get("/api/yomomma", isApplication, async (req, res) => {
+        this.get("/api/v1/yomomma", isApplication, GET, async (req, res) => {
             res.json({ "data": await grabLine("yomomma") });
         });
 
-        async function fetchTiger() {
-            const dir = path.join(__dirname, "data", "tigers");
-            const files = await fsn.readdir(dir);
-
-            return await fsn.readFile(`${dir}/` + files[Math.round(files.length * Math.random())]);
-        }
-
-        this.get("/api/tiger", isApplication, async (req, res) => {
+        this.get("/api/v1/tiger", isApplication, GET, async (req, res) => {
             res.json({ "data": await fetchTiger() });
         });
 
-        this.get("/api/*", (req, res) => {
-            res.json({"code": 0, "message": "404: Not Found" });
+        this.all("/api/v1/*", (req, res) => {
+            res.json({ "message": "Endpoint Not Found" });
         });
 
         /*
