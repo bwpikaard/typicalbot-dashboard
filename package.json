@@ -10,5 +10,8 @@
         "passport-discord": "^0.1.2",
         "snekfetch": "^3.6.1",
         "superagent": "^3.8.2"
+    },
+    "scripts": {
+        "docs": "apidoc --debug false -i ./ -o content/static/api -e node_modules/"
     }
 }

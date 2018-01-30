@@ -345,14 +345,15 @@ new class extends express {
         });
 
         /**
-         * @api {get} /stats Fetch TypicalBot's Statistics
+         * @api {get} /stats Statistics
          * @apiVersion 0.0.1
          * @apiName Statistics
-         * @apiHeader token token
-         * @apiSampleRequest /stats
+         * @apiGroup TypicalBot
+         * @apiHeader Authentication TypicalBot API token.
+         * @apiSampleRequest /api/v1/stats
          */
 
-        this.all("/api/stats", isApplication, GET, async (req, res) => {
+        this.all("/api/v1/stats", isApplication, GET, async (req, res) => {
             request.get(`${this.config.api}/stats`).set("Authentication", this.config.apitoken).then(data => {
                 return res.json({ data: data.body });
             }).catch(err => {
@@ -362,24 +363,52 @@ new class extends express {
         });
 
         /**
-         * @api {get} /quote Fetch a Quote
+         * @api {get} /quote Quotes
          * @apiVersion 0.0.1
          * @apiName Quotes
-         * @apiHeader token token
-         * @apiSampleRequest /stats
+         * @apiGroup TypicalBot
+         * @apiHeader Authentication TypicalBot API token.
+         * @apiSampleRequest /api/v1/quote
          */
 
         this.get("/api/v1/quote", isApplication, GET, async (req, res) => {
             res.json({ "data": await grabLine("quotes") });
         });
 
+        /**
+         * @api {get} /joke Jokes
+         * @apiVersion 0.0.1
+         * @apiName Jokes
+         * @apiGroup TypicalBot
+         * @apiHeader Authentication TypicalBot API token.
+         * @apiSampleRequest /api/v1/joke
+         */
+
         this.get("/api/v1/joke", isApplication, GET, async (req, res) => {
             res.json({ "data": await grabLine("jokes") });
         });
 
+        /**
+         * @api {get} /yomomma Yomomma Jokes
+         * @apiVersion 0.0.1
+         * @apiName Yomomma Jokes
+         * @apiGroup TypicalBot
+         * @apiHeader Authentication TypicalBot API token.
+         * @apiSampleRequest /api/v1/yomomma
+         */
+
         this.get("/api/v1/yomomma", isApplication, GET, async (req, res) => {
             res.json({ "data": await grabLine("yomomma") });
         });
+
+        /**
+         * @api {get} /tiger Tigers
+         * @apiVersion 0.0.1
+         * @apiName Tigers
+         * @apiGroup TypicalBot
+         * @apiHeader Authentication TypicalBot API token.
+         * @apiSampleRequest /api/v1/tiger
+         */
 
         this.get("/api/v1/tiger", isApplication, GET, async (req, res) => {
             res.json({ "data": await fetchTiger() });
