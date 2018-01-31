@@ -55,7 +55,8 @@ new class extends express {
         function isApplication (req, res, next) {
             if (req.get("Authentication") && Object.keys(tokens).filter(u => tokens[u].token === req.get("Authentication")[0])) return next();
             
-            res.status(401).json({ "message": "Unauthorized", "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page." }); }
+            res.status(401).json({ "message": "Unauthorized", "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page." });
+        }
 
         /*
                                                            - - - - - - - - - -
@@ -349,7 +350,34 @@ new class extends express {
          * @apiVersion 1.0.0
          * @apiName Statistics
          * @apiGroup TypicalBot
+         * 
          * @apiHeader Authentication TypicalBot API token.
+         * @apiHeaderExample {json} Header-Example:
+         *     {
+         *         "Authentication": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
+         *     }
+         * 
+         * @apiSuccess {Object} data The response from the API.
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": {
+         *             "guilds": 34,
+         *             "channels": 886,
+         *             "voiceConnections": 0,
+         *             "users": 5034
+         *         }
+         *     }
+         * 
+         * @apiError {String} message The error encountered.
+         * @apiError {String} resolution The way to fix the error.
+         * @apiErrorExample {json} Error-Response:
+         *     HTTP/1.1 403 Unauthorized
+         *     {
+         *         "message": "Unauthorized",
+         *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
+         *     }
+         * 
          * @apiSampleRequest /api/v1/stats
          */
 
@@ -366,7 +394,7 @@ new class extends express {
          * @api {get} /quote Quotes
          * @apiVersion 1.0.0
          * @apiName Quotes
-         * @apiGroup TypicalBot
+         * @apiGroup Entertainment
          * @apiHeader Authentication TypicalBot API token.
          * @apiSampleRequest /api/v1/quote
          */
@@ -379,7 +407,7 @@ new class extends express {
          * @api {get} /joke Jokes
          * @apiVersion 1.0.0
          * @apiName Jokes
-         * @apiGroup TypicalBot
+         * @apiGroup Entertainment
          * @apiHeader Authentication TypicalBot API token.
          * @apiSampleRequest /api/v1/joke
          */
@@ -392,7 +420,7 @@ new class extends express {
          * @api {get} /yomomma Yomomma Jokes
          * @apiVersion 1.0.0
          * @apiName Yomomma Jokes
-         * @apiGroup TypicalBot
+         * @apiGroup Entertainment
          * @apiHeader Authentication TypicalBot API token.
          * @apiSampleRequest /api/v1/yomomma
          */
@@ -405,7 +433,7 @@ new class extends express {
          * @api {get} /tiger Tigers
          * @apiVersion 1.0.0
          * @apiName Tigers
-         * @apiGroup TypicalBot
+         * @apiGroup Entertainment
          * @apiHeader Authentication TypicalBot API token.
          * @apiSampleRequest /api/v1/tiger
          */

@@ -12,6 +12,6 @@
         "superagent": "^3.8.2"
     },
     "scripts": {
-        "docs": "apidoc --debug false -i ./ -o content/static/api -e node_modules/"
+        "docs": "apidoc --debug false -i ./ -o content/static/api -e node_modules/ -t content/api-doc-template"
     }
 }
