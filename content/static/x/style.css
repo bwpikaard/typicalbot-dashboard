@@ -272,7 +272,7 @@ a[data-leave] {
     color: #1592cd !important;
 }
 
-.text i.fa {
+.text i.fa, .guild-actions li a i.fa {
     width: 20px;
     height: 20px;
     line-height: 20px;
