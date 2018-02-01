@@ -358,6 +358,10 @@ new class extends express {
          *     }
          * 
          * @apiSuccess {Object} data The response from the API.
+         * @apiSuccess {Object} data.guilds The total number of gulds the bot is in.
+         * @apiSuccess {Object} data.channels The total number of channels the bot is in.
+         * @apiSuccess {Object} data.voiceConnections The total number of voice connections the bot is in.
+         * @apiSuccess {Object} data.users The total number of users the bot can see.
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 200 OK
          *     {
@@ -395,7 +399,29 @@ new class extends express {
          * @apiVersion 1.0.0
          * @apiName Quotes
          * @apiGroup Entertainment
+         * 
          * @apiHeader Authentication TypicalBot API token.
+         * @apiHeaderExample {json} Header-Example:
+         *     {
+         *         "Authentication": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
+         *     }
+         * 
+         * @apiSuccess {String} data The response from the API.
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": "\"Don't do that!\""
+         *     }
+         * 
+         * @apiError {String} message The error encountered.
+         * @apiError {String} resolution The way to fix the error.
+         * @apiErrorExample {json} Error-Response:
+         *     HTTP/1.1 403 Unauthorized
+         *     {
+         *         "message": "Unauthorized",
+         *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
+         *     }
+         * 
          * @apiSampleRequest /api/v1/quote
          */
 
@@ -408,7 +434,29 @@ new class extends express {
          * @apiVersion 1.0.0
          * @apiName Jokes
          * @apiGroup Entertainment
+         * 
          * @apiHeader Authentication TypicalBot API token.
+         * @apiHeaderExample {json} Header-Example:
+         *     {
+         *         "Authentication": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
+         *     }
+         * 
+         * @apiSuccess {String} data The response from the API.
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": "\"This is a joke. T'was it a funny one?\""
+         *     }
+         * 
+         * @apiError {String} message The error encountered.
+         * @apiError {String} resolution The way to fix the error.
+         * @apiErrorExample {json} Error-Response:
+         *     HTTP/1.1 403 Unauthorized
+         *     {
+         *         "message": "Unauthorized",
+         *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
+         *     }
+         * 
          * @apiSampleRequest /api/v1/joke
          */
 
@@ -421,8 +469,30 @@ new class extends express {
          * @apiVersion 1.0.0
          * @apiName Yomomma Jokes
          * @apiGroup Entertainment
+         * 
          * @apiHeader Authentication TypicalBot API token.
-         * @apiSampleRequest /api/v1/yomomma
+         * @apiHeaderExample {json} Header-Example:
+         *     {
+         *         "Authentication": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
+         *     }
+         * 
+         * @apiSuccess {String} data The response from the API.
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": "\"Yo mama so fat she crushed the couch.\""
+         *     }
+         * 
+         * @apiError {String} message The error encountered.
+         * @apiError {String} resolution The way to fix the error.
+         * @apiErrorExample {json} Error-Response:
+         *     HTTP/1.1 403 Unauthorized
+         *     {
+         *         "message": "Unauthorized",
+         *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
+         *     }
+         * 
+         * @apiSampleRequest /api/v1/yomommas
          */
 
         this.get("/api/v1/yomomma", isApplication, GET, async (req, res) => {
@@ -430,11 +500,38 @@ new class extends express {
         });
 
         /**
-         * @api {get} /tiger Tigers
+         * @api {get} /tigr Tigers
          * @apiVersion 1.0.0
          * @apiName Tigers
          * @apiGroup Entertainment
+         * 
          * @apiHeader Authentication TypicalBot API token.
+         * @apiHeaderExample {json} Header-Example:
+         *     {
+         *         "Authentication": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
+         *     }
+         * 
+         * @apiSuccess {Object} data The response from the API.
+         * @apiSuccess {String} data.type The type of the data given.
+         * @apiSuccess {Array} data.data The Bufer array.
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": {
+         *             "type": "Buffer",
+         *             "data": [ . . . ]
+         *         }
+         *     }
+         * 
+         * @apiError {String} message The error encountered.
+         * @apiError {String} resolution The way to fix the error.
+         * @apiErrorExample {json} Error-Response:
+         *     HTTP/1.1 403 Unauthorized
+         *     {
+         *         "message": "Unauthorized",
+         *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
+         *     }
+         * 
          * @apiSampleRequest /api/v1/tiger
          */
 
