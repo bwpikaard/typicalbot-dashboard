@@ -108,6 +108,7 @@ nav ul .dropdown-menu .dropdown-item {
     width: 15%;
     padding: 10px;
     background-color: #1592cd;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
 
 .frame .frame-page {
