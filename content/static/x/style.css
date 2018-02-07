@@ -68,6 +68,10 @@ nav ul .dropdown-menu .dropdown-item {
     color: black !important;
 }
 
+.no-padding {
+    padding: 0;
+}
+
 .alert-primary {
     background-color: #00adff;
     color: white;
