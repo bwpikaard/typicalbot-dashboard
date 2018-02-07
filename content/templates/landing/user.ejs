@@ -49,12 +49,6 @@
             <% } %>
 
             <div class="frame-page scroll" <% if (!auth) { %> style="width: 100%;" <% } %>>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/user"><%= user.username %>#<%= user.discriminator %></a></li>
-                    </ol>
-                </nav>
                 <div <% if (!auth) { %> class="container" <% } %>>
                     
                     <div class="box" id="ignoretheme">
