@@ -328,7 +328,7 @@ a[data-leave] {
     border: 1px solid rgba(112, 112, 112, 0.12);
     padding: 20px;
     border-radius: 3px;
-    margin-bottom: 20px;
+    margin: 20px 0;
     background-color: #33bdff;
 }
 
