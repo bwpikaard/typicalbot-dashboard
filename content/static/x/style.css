@@ -133,10 +133,13 @@ nav ul .dropdown-menu .dropdown-item {
 }
 
 .frame-nav .title {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 10px 0 0 0;
+    color: #65737e;
+    padding: 8px 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .frame-nav .guilds {
