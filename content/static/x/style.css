@@ -150,7 +150,7 @@ nav ul .dropdown-menu .dropdown-item {
     padding: 5px 15px;
     margin-bottom: 5px;
     display: block;
-    color: white;
+    /*color: white;*/
     border-radius: 4px;
     transition: color 0.25s linear;
 }
