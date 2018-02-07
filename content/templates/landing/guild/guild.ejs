@@ -49,14 +49,6 @@
             <% } %>
 
             <div class="frame-page scroll" <% if (!auth) { %> style="width: 100%;" <% } %>>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/guilds">Guilds</a></li>
-                        <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>"><%= guild.name %></a></li>
-                    </ol>
-                </nav>
-
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 col-lg-6 col-xl-3">
