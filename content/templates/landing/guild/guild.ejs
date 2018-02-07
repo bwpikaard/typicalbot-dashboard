@@ -56,6 +56,48 @@
                         <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>"><%= guild.name %></a></li>
                     </ol>
                 </nav>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="guild-box clearfix">
+                                <span class="guild-box-icon"><i class="fa fa-users"></i></span>
+                                <div class="guild-box-text">
+                                    <span class="guild-box-text-counter"><%= Number(guild.memberCount).toLocaleString() %></span>
+                                    Users
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="guild-box clearfix">
+                                <span class="guild-box-icon"><i class="fa fa-users"></i></span>
+                                <div class="guild-box-text">
+                                    <span class="guild-box-text-counter"><%= guild.roles.length %></span>
+                                    Roles
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="guild-box clearfix">
+                                <span class="guild-box-icon"><i class="fa fa-users"></i></span>
+                                <div class="guild-box-text">
+                                    <span class="guild-box-text-counter"><%= guild.channels.filter(c => c.type === "text").length %></span>
+                                    Text channels
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="guild-box clearfix">
+                                <span class="guild-box-icon"><i class="fa fa-users"></i></span>
+                                <div class="guild-box-text">
+                                    <span class="guild-box-text-counter"><%= guild.channels.filter(c => c.type === "voice").length %></span>
+                                    Voice channels
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div <% if (!auth) { %> class="container" <% } %>>
                     
                     <div class="box" id="ignoretheme">

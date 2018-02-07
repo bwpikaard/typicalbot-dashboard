@@ -316,3 +316,38 @@ a[data-leave] {
     line-height: 20px;
     text-align: center;
 }
+
+.guild-box {
+    border: 1px solid rgba(112, 112, 112, 0.12);
+    padding: 20px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    background-color: #33bdff;
+}
+
+.guild-box-icon {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    line-height: 60px;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 100%;
+    float: left;
+    margin-right: 10px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.guild-box-text {
+    font-size: 14px;
+    padding-top: 2px;
+    color: #fff;
+    text-align: right;
+}
+
+.guild-box-text-counter {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+}
