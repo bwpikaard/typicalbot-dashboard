@@ -69,7 +69,7 @@ nav ul .dropdown-menu .dropdown-item {
 }
 
 .no-padding {
-    padding: 0;
+    padding: 0 !important;
 }
 
 .alert-primary {
