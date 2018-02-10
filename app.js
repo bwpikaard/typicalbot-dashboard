@@ -578,7 +578,7 @@ new class extends express {
             res.json({ "message": "No Content" });
         });
 
-        this.get("/api/tokens/generate", isApplication, GET, async (req, res) => {
+        this.get("/api/tokens/generate", GET, async (req, res) => {
             res.json({ "data": await grabLine("quotes") });
         });
 
