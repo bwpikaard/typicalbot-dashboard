@@ -1,7 +1,7 @@
 [
   {
     "type": "get",
-    "url": "/joke",
+    "url": "/v1/joke",
     "title": "Jokes",
     "version": "1.0.0",
     "name": "Jokes",
@@ -82,7 +82,7 @@
   },
   {
     "type": "get",
-    "url": "/quote",
+    "url": "/v1/quote",
     "title": "Quotes",
     "version": "1.0.0",
     "name": "Quotes",
@@ -163,7 +163,7 @@
   },
   {
     "type": "get",
-    "url": "/tigr",
+    "url": "/v1/tigr",
     "title": "Tigers",
     "version": "1.0.0",
     "name": "Tigers",
@@ -258,7 +258,7 @@
   },
   {
     "type": "get",
-    "url": "/yomomma",
+    "url": "/v1/yomomma",
     "title": "Yomomma Jokes",
     "version": "1.0.0",
     "name": "Yomomma_Jokes",
@@ -339,7 +339,77 @@
   },
   {
     "type": "get",
-    "url": "/stats",
+    "url": "/tokens/generate",
+    "title": "Generate Token",
+    "version": "1.0.0",
+    "name": "Token_Generation",
+    "group": "Tokens",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The response from the API.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"data\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "sampleRequest": [
+      {
+        "url": "/api/tokens/generate"
+      }
+    ],
+    "filename": "./app.js",
+    "groupTitle": "Tokens"
+  },
+  {
+    "type": "get",
+    "url": "/tokens/generate",
+    "title": "Generate Token",
+    "version": "1.0.0",
+    "name": "Token_Generation",
+    "group": "Tokens",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The response from the API.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"data\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "sampleRequest": [
+      {
+        "url": "/api/tokens/generate"
+      }
+    ],
+    "filename": "./app.js",
+    "groupTitle": "Tokens"
+  },
+  {
+    "type": "get",
+    "url": "/v1/stats",
     "title": "Statistics",
     "version": "1.0.0",
     "name": "Statistics",

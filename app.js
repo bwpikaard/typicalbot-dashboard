@@ -346,7 +346,7 @@ new class extends express {
         });
 
         /**
-         * @api {get} /stats Statistics
+         * @api {get} /v1/stats Statistics
          * @apiVersion 1.0.0
          * @apiName Statistics
          * @apiGroup TypicalBot
@@ -395,7 +395,7 @@ new class extends express {
         });
 
         /**
-         * @api {get} /quote Quotes
+         * @api {get} /v1/quote Quotes
          * @apiVersion 1.0.0
          * @apiName Quotes
          * @apiGroup Entertainment
@@ -430,7 +430,7 @@ new class extends express {
         });
 
         /**
-         * @api {get} /joke Jokes
+         * @api {get} /v1/joke Jokes
          * @apiVersion 1.0.0
          * @apiName Jokes
          * @apiGroup Entertainment
@@ -465,7 +465,7 @@ new class extends express {
         });
 
         /**
-         * @api {get} /yomomma Yomomma Jokes
+         * @api {get} /v1/yomomma Yomomma Jokes
          * @apiVersion 1.0.0
          * @apiName Yomomma Jokes
          * @apiGroup Entertainment
@@ -500,7 +500,7 @@ new class extends express {
         });
 
         /**
-         * @api {get} /tigr Tigers
+         * @api {get} /v1/tigr Tigers
          * @apiVersion 1.0.0
          * @apiName Tigers
          * @apiGroup Entertainment
@@ -536,7 +536,7 @@ new class extends express {
          */
 
         this.get("/api/v1/tiger", GET, async (req, res) => {
-            res.json({ "data": tokenGen() });
+            res.json({ "data": await fetchTiger() }); 
         });
 
         this.all("/api/v1/*", (req, res) => {
@@ -544,42 +544,43 @@ new class extends express {
         });
 
         /**
-         * @api {get} /quote Quotes
+         * @api {get} /tokens/generate Generate Token
          * @apiVersion 1.0.0
-         * @apiName Quotes
-         * @apiGroup Entertainment
-         * 
-         * @apiHeader Authentication TypicalBot API token.
-         * @apiHeaderExample {json} Header-Example:
-         *     {
-         *         "Authentication": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
-         *     }
+         * @apiName Token Generation
+         * @apiGroup Tokens
          * 
          * @apiSuccess {String} data The response from the API.
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 200 OK
          *     {
-         *         "data": "\"Don't do that!\""
+         *         "data": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
          *     }
          * 
-         * @apiError {String} message The error encountered.
-         * @apiError {String} resolution The way to fix the error.
-         * @apiErrorExample {json} Error-Response:
-         *     HTTP/1.1 403 Unauthorized
-         *     {
-         *         "message": "Unauthorized",
-         *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
-         *     }
-         * 
-         * @apiSampleRequest /api/v1/quote
+         * @apiSampleRequest /api/tokens/generate
          */
 
         this.all("/api/tokens", (req, res) => {
             res.json({ "message": "No Content" });
         });
 
+        /**
+         * @api {get} /tokens/generate Generate Token
+         * @apiVersion 1.0.0
+         * @apiName Token Generation
+         * @apiGroup Tokens
+         * 
+         * @apiSuccess {String} data The response from the API.
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
+         *     }
+         * 
+         * @apiSampleRequest /api/tokens/generate
+         */
+
         this.get("/api/tokens/generate", GET, async (req, res) => {
-            res.json({ "data": await grabLine("quotes") });
+            res.json({ "data": tokenGen() });
         });
 
         this.all("/api/tokens/*", (req, res) => {

@@ -10,7 +10,7 @@
 
         <div class="frame row">
             <% if (auth) { %>
-                <div class="frame-nav scroll no-padding">
+                <div class="frame-nav scroll">
                     <% if (guilds.filter(g => g.isMember).length) { %>
                         <p class="title">Manage a Server</p>
                         <ul class="guilds">
@@ -49,47 +49,13 @@
             <% } %>
 
             <div class="frame-page scroll" <% if (!auth) { %> style="width: 100%;" <% } %>>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6 col-xl-3">
-                            <div class="guild-box clearfix">
-                                <span class="guild-box-icon"><i class="fa fa-users"></i></span>
-                                <div class="guild-box-text">
-                                    <span class="guild-box-text-counter"><%= Number(guild.memberCount).toLocaleString() %></span>
-                                    Users
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-3">
-                            <div class="guild-box clearfix">
-                                <span class="guild-box-icon"><i class="fa fa-tags"></i></span>
-                                <div class="guild-box-text">
-                                    <span class="guild-box-text-counter"><%= guild.roles.length %></span>
-                                    Roles
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-3">
-                            <div class="guild-box clearfix">
-                                <span class="guild-box-icon"><i class="fa fa-hashtag"></i></span>
-                                <div class="guild-box-text">
-                                    <span class="guild-box-text-counter"><%= guild.channels.filter(c => c.type === "text").length %></span>
-                                    Text channels
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-3">
-                            <div class="guild-box clearfix">
-                                <span class="guild-box-icon"><i class="fa fa-microphone"></i></span>
-                                <div class="guild-box-text">
-                                    <span class="guild-box-text-counter"><%= guild.channels.filter(c => c.type === "voice").length %></span>
-                                    Voice channels
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/guilds">Guilds</a></li>
+                        <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>"><%= guild.name %></a></li>
+                    </ol>
+                </nav>
                 <div <% if (!auth) { %> class="container" <% } %>>
                     
                     <div class="box" id="ignoretheme">

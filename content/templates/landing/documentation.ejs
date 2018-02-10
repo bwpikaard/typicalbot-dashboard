@@ -49,6 +49,12 @@
             <% } %>
             <div class="frame-page scroll" <% if (!auth) { %> style="width: 100%;" <% } %>>
                 <div class="content docs <% if (!auth) { %> container <% } %> " <% if (auth) { %> style="margin: 0;" <% } %>>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/documentation">Documentation</a></li>
+                        </ol>
+                    </nav>
                     <h2 style="text-align: center;" id="ignoretheme">TypicalBot Documentation</h2>
                     <hr class="my-2"><br>
                     <ul class="nav nav-tabs">

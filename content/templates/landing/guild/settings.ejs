@@ -50,6 +50,14 @@
 
             <div class="frame-page scroll" <% if (!auth) { %> style="width: 100%;" <% } %>>
                 <div <% if (!auth) { %> class="container" <% } %>>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/guilds">Guilds</a></li>
+                            <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>"><%= guild.name %></a></li>
+                            <li class="breadcrumb-item"><a href="/guilds/<%= guild.id %>/settings">Settings</a></li>
+                        </ol>
+                    </nav>
                     
                     <div class="box">
                         <p class="title">Settings</p>
