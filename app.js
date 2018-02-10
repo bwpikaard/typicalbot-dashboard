@@ -535,11 +535,54 @@ new class extends express {
          * @apiSampleRequest /api/v1/tiger
          */
 
-        this.get("/api/v1/tiger", isApplication, GET, async (req, res) => {
-            res.json({ "data": await fetchTiger() });
+        this.get("/api/v1/tiger", GET, async (req, res) => {
+            res.json({ "data": tokenGen() });
         });
 
         this.all("/api/v1/*", (req, res) => {
+            res.json({ "message": "Endpoint Not Found" });
+        });
+
+        /**
+         * @api {get} /quote Quotes
+         * @apiVersion 1.0.0
+         * @apiName Quotes
+         * @apiGroup Entertainment
+         * 
+         * @apiHeader Authentication TypicalBot API token.
+         * @apiHeaderExample {json} Header-Example:
+         *     {
+         *         "Authentication": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
+         *     }
+         * 
+         * @apiSuccess {String} data The response from the API.
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": "\"Don't do that!\""
+         *     }
+         * 
+         * @apiError {String} message The error encountered.
+         * @apiError {String} resolution The way to fix the error.
+         * @apiErrorExample {json} Error-Response:
+         *     HTTP/1.1 403 Unauthorized
+         *     {
+         *         "message": "Unauthorized",
+         *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
+         *     }
+         * 
+         * @apiSampleRequest /api/v1/quote
+         */
+
+        this.all("/api/tokens", (req, res) => {
+            res.json({ "message": "No Content" });
+        });
+
+        this.get("/api/tokens/generate", isApplication, GET, async (req, res) => {
+            res.json({ "data": await grabLine("quotes") });
+        });
+
+        this.all("/api/tokens/*", (req, res) => {
             res.json({ "message": "Endpoint Not Found" });
         });
 
