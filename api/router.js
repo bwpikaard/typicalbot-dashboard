@@ -11,6 +11,16 @@ const crypto        = require("crypto");
 
 const tokens        = require("../tokens");
 
+async function grabLine(file) {
+    file = path.join(__dirname, "/data", `${file}.txt`);
+
+    const data = fs.readFileSync(file, "utf8");
+
+    const lines = data.split(/\r?\n/);
+    const line = lines[Math.floor(Math.random() * lines.length)];
+    return line;
+}
+
 class Router extends express.Router {
     constructor(server) {
         super();
@@ -19,37 +29,13 @@ class Router extends express.Router {
 
         this.use(bodyParser.json());
 
-        function isApplication (req, res, next) {
+        this.use("/v1/*", (req, res, next) => {
             if (req.get("Authorization") && Object.keys(tokens).map(t => tokens[t].token).includes(req.get("Authorization"))) return next();
             
-            res.status(401).json({ "message": "Unauthorized", "resolution": "Supply an 'Authorization' header with your API token, which can be found on your profile page." });
-        }
+            res.status(401).json({ "message": "Unauthorized" });
+        });
 
-        function GET(req, res, next) {
-            if (req.method === "GET") return next();
-            return res.status().json({ "message": "Method Not Supported" });
-        } 
-
-        function tokenGen() {
-            return crypto.randomBytes(20).toString("base64");
-        }
-
-        async function grabLine(file) {
-            file = path.join(__dirname, "/data", `${file}.txt`);
-
-            const data = fs.readFileSync(file, "utf8");
-
-            const lines = data.split(/\r?\n/);
-            const line = lines[Math.floor(Math.random() * lines.length)];
-            return line;
-        }
-
-        async function fetchTiger() {
-            const dir = path.join(__dirname, "data", "tigers");
-            const files = await fsn.readdir(dir);
-
-            return await fsn.readFile(`${dir}/` + files[Math.round(files.length * Math.random())]);
-        }
+        /*              Routes              */
 
         this.all("/v1", (req, res) => {
             res.json({ "message": "No Content" });
@@ -88,14 +74,13 @@ class Router extends express.Router {
          * @apiErrorExample {json} Error-Response:
          *     HTTP/1.1 403 Unauthorized
          *     {
-         *         "message": "Unauthorized",
-         *         "resolution": "Supply an 'Authorization' header with your API token, which can be found on your profile page."
+         *         "message": "Unauthorized"
          *     }
          * 
          * @apiSampleRequest /api/v1/stats
          */
 
-        this.all("/v1/stats", isApplication, GET, async (req, res) => {
+        this.all("/v1/stats", async (req, res) => {
             request.get(`${this.config.api}/stats`).set("Authorization", this.config.apitoken).then(data => {
                 return res.json({ data: data.body });
             }).catch(err => {
@@ -128,14 +113,13 @@ class Router extends express.Router {
          * @apiErrorExample {json} Error-Response:
          *     HTTP/1.1 403 Unauthorized
          *     {
-         *         "message": "Unauthorized",
-         *         "resolution": "Supply an 'Authorization' header with your API token, which can be found on your profile page."
+         *         "message": "Unauthorized"
          *     }
          * 
          * @apiSampleRequest /api/v1/quote
          */
 
-        this.get("/v1/quote", isApplication, GET, async (req, res) => {
+        this.get("/v1/quote", async (req, res) => {
             res.json({ "data": await grabLine("quotes") });
         });
 
@@ -163,14 +147,13 @@ class Router extends express.Router {
          * @apiErrorExample {json} Error-Response:
          *     HTTP/1.1 403 Unauthorized
          *     {
-         *         "message": "Unauthorized",
-         *         "resolution": "Supply an 'Authorization' header with your API token, which can be found on your profile page."
+         *         "message": "Unauthorized"
          *     }
          * 
          * @apiSampleRequest /api/v1/joke
          */
 
-        this.get("/v1/joke", isApplication, GET, async (req, res) => {
+        this.get("/v1/joke", async (req, res) => {
             res.json({ "data": await grabLine("jokes") });
         });
 
@@ -198,14 +181,13 @@ class Router extends express.Router {
          * @apiErrorExample {json} Error-Response:
          *     HTTP/1.1 403 Unauthorized
          *     {
-         *         "message": "Unauthorized",
-         *         "resolution": "Supply an 'Authorization' header with your API token, which can be found on your profile page."
+         *         "message": "Unauthorized"
          *     }
          * 
          * @apiSampleRequest /api/v1/yomomma
          */
 
-        this.get("/v1/yomomma", isApplication, GET, async (req, res) => {
+        this.get("/v1/yomomma", async (req, res) => {
             res.json({ "data": await grabLine("yomomma") });
         });
 
@@ -239,35 +221,21 @@ class Router extends express.Router {
          *     HTTP/1.1 403 Unauthorized
          *     {
          *         "message": "Unauthorized",
-         *         "resolution": "Supply an 'Authorization' header with your API token, which can be found on your profile page."
          *     }
          * 
          * @apiSampleRequest /api/v1/tiger
          */
 
-        this.get("/v1/tiger", isApplication, GET, async (req, res) => {
-            res.json({ "data": await fetchTiger() }); 
+        this.get("/v1/tiger", async (req, res) => {
+            const dir = path.join(__dirname, "data", "tigers");
+            const tigers = await fsn.readdir(dir);
+
+            res.json({ "data": await fsn.readFile(`${dir}/` + tigers[Math.round(tigers.length * Math.random())]) }); 
         });
 
         this.all("/v1/*", (req, res) => {
             res.json({ "message": "Endpoint Not Found" });
         });
-
-        /**
-         * @api {get} /tokens/generate Generate Token
-         * @apiVersion 1.0.0
-         * @apiName Token Generation
-         * @apiGroup Tokens
-         * 
-         * @apiSuccess {String} data The response from the API.
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 200 OK
-         *     {
-         *         "data": "dQnKCHo9WRmk8V2xt+jDCC85LOo="
-         *     }
-         * 
-         * @apiSampleRequest /api/tokens/generate
-         */
 
         this.all("/tokens", (req, res) => {
             res.json({ "message": "No Content" });
@@ -289,8 +257,8 @@ class Router extends express.Router {
          * @apiSampleRequest /api/tokens/generate
          */
 
-        this.get("/tokens/generate", GET, async (req, res) => {
-            res.json({ "data": tokenGen() });
+        this.get("/tokens/generate", async (req, res) => {
+            res.json({ "data": crypto.randomBytes(20).toString("base64") });
         });
 
         this.all("/tokens/*", (req, res) => {
