@@ -20,7 +20,7 @@ class Router extends express.Router {
         this.use(bodyParser.json());
 
         function isApplication (req, res, next) {
-            if (req.get("Authorization") && Object.keys(tokens).filter(u => tokens[u].token === req.get("Authorization")[0])) return next();
+            if (req.get("Authorization") && Object.keys(tokens).map(t => tokens[t].token).includes(req.get("Authorization"))) return next();
             
             res.status(401).json({ "message": "Unauthorized", "resolution": "Supply an 'Authorization' header with your API token, which can be found on your profile page." });
         }
