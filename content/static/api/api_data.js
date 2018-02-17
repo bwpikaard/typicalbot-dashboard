@@ -12,7 +12,7 @@ define({ "api": [
           {
             "group": "Header",
             "optional": false,
-            "field": "Authentication",
+            "field": "Authorization",
             "description": "<p>TypicalBot API token.</p>"
           }
         ]
@@ -20,7 +20,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Header-Example:",
-          "content": "{\n    \"Authentication\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
+          "content": "{\n    \"Authorization\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
           "type": "json"
         }
       ]
@@ -67,7 +67,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authentication' header with your API token, which can be found on your profile page.\"\n}",
+          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authorization' header with your API token, which can be found on your profile page.\"\n}",
           "type": "json"
         }
       ]
@@ -77,7 +77,7 @@ define({ "api": [
         "url": "/api/v1/joke"
       }
     ],
-    "filename": "./app.js",
+    "filename": "./api/router.js",
     "groupTitle": "Entertainment"
   },
   {
@@ -93,7 +93,7 @@ define({ "api": [
           {
             "group": "Header",
             "optional": false,
-            "field": "Authentication",
+            "field": "Authorization",
             "description": "<p>TypicalBot API token.</p>"
           }
         ]
@@ -101,7 +101,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Header-Example:",
-          "content": "{\n    \"Authentication\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
+          "content": "{\n    \"Authorization\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
           "type": "json"
         }
       ]
@@ -148,7 +148,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authentication' header with your API token, which can be found on your profile page.\"\n}",
+          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authorization' header with your API token, which can be found on your profile page.\"\n}",
           "type": "json"
         }
       ]
@@ -158,7 +158,7 @@ define({ "api": [
         "url": "/api/v1/quote"
       }
     ],
-    "filename": "./app.js",
+    "filename": "./api/router.js",
     "groupTitle": "Entertainment"
   },
   {
@@ -174,7 +174,7 @@ define({ "api": [
           {
             "group": "Header",
             "optional": false,
-            "field": "Authentication",
+            "field": "Authorization",
             "description": "<p>TypicalBot API token.</p>"
           }
         ]
@@ -182,7 +182,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Header-Example:",
-          "content": "{\n    \"Authentication\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
+          "content": "{\n    \"Authorization\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
           "type": "json"
         }
       ]
@@ -243,7 +243,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authentication' header with your API token, which can be found on your profile page.\"\n}",
+          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authorization' header with your API token, which can be found on your profile page.\"\n}",
           "type": "json"
         }
       ]
@@ -253,7 +253,7 @@ define({ "api": [
         "url": "/api/v1/tiger"
       }
     ],
-    "filename": "./app.js",
+    "filename": "./api/router.js",
     "groupTitle": "Entertainment"
   },
   {
@@ -269,7 +269,7 @@ define({ "api": [
           {
             "group": "Header",
             "optional": false,
-            "field": "Authentication",
+            "field": "Authorization",
             "description": "<p>TypicalBot API token.</p>"
           }
         ]
@@ -277,7 +277,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Header-Example:",
-          "content": "{\n    \"Authentication\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
+          "content": "{\n    \"Authorization\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
           "type": "json"
         }
       ]
@@ -324,17 +324,17 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authentication' header with your API token, which can be found on your profile page.\"\n}",
+          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authorization' header with your API token, which can be found on your profile page.\"\n}",
           "type": "json"
         }
       ]
     },
     "sampleRequest": [
       {
-        "url": "/api/v1/yomommas"
+        "url": "/api/v1/yomomma"
       }
     ],
-    "filename": "./app.js",
+    "filename": "./api/router.js",
     "groupTitle": "Entertainment"
   },
   {
@@ -369,7 +369,7 @@ define({ "api": [
         "url": "/api/tokens/generate"
       }
     ],
-    "filename": "./app.js",
+    "filename": "./api/router.js",
     "groupTitle": "Tokens"
   },
   {
@@ -404,7 +404,7 @@ define({ "api": [
         "url": "/api/tokens/generate"
       }
     ],
-    "filename": "./app.js",
+    "filename": "./api/router.js",
     "groupTitle": "Tokens"
   },
   {
@@ -420,7 +420,7 @@ define({ "api": [
           {
             "group": "Header",
             "optional": false,
-            "field": "Authentication",
+            "field": "Authorization",
             "description": "<p>TypicalBot API token.</p>"
           }
         ]
@@ -428,7 +428,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Header-Example:",
-          "content": "{\n    \"Authentication\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
+          "content": "{\n    \"Authorization\": \"dQnKCHo9WRmk8V2xt+jDCC85LOo=\"\n}",
           "type": "json"
         }
       ]
@@ -503,7 +503,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authentication' header with your API token, which can be found on your profile page.\"\n}",
+          "content": "HTTP/1.1 403 Unauthorized\n{\n    \"message\": \"Unauthorized\",\n    \"resolution\": \"Supply an 'Authorization' header with your API token, which can be found on your profile page.\"\n}",
           "type": "json"
         }
       ]
@@ -513,7 +513,7 @@ define({ "api": [
         "url": "/api/v1/stats"
       }
     ],
-    "filename": "./app.js",
+    "filename": "./api/router.js",
     "groupTitle": "TypicalBot"
   }
 ] });
