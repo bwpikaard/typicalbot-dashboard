@@ -492,7 +492,7 @@ new class extends express {
          *         "resolution": "Supply an 'Authentication' header with your API token, which can be found on your profile page."
          *     }
          * 
-         * @apiSampleRequest /api/v1/yomommas
+         * @apiSampleRequest /api/v1/yomomma
          */
 
         this.get("/api/v1/yomomma", isApplication, GET, async (req, res) => {
