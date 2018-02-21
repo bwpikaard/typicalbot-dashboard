@@ -1,342 +1,77 @@
-const express       = require("express");
-const session       = require("express-session");
-const passport      = require("passport");
-const { Strategy }  = require("passport-discord");
-const bodyParser    = require("body-parser");
-const Discord       = require("discord.js");
-
-const url           = require("url");
-const path          = require("path");
-const request       = require("snekfetch");
-
-const User          = require("./structures/User");
-
-const APIRouter     = require("./api/router");
-
-function template(req) { return path.join(__dirname, "content", "templates", req); }
-
-new class extends express {
-    constructor() {
-        super();
-
-        Object.defineProperty(this, "config", { value: require("./config") });
-
-        this.invite = `https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=https://dashboard.typicalbot.com/&response_type=code`;
-
-        this.users = new Discord.Collection();
-
-        passport.serializeUser((id, done) => { done(null, id); });
-        passport.deserializeUser((id, done) => { done(null, this.users.get(id)); });
-
-        passport.use(
-            new Strategy({ clientID: this.config.clientID, clientSecret: this.config.clientSecret, callbackURL: this.config.redirectUri, scope: ["identify", "guilds"] },
-                (accessToken, refreshToken, profile, done) => { this.users.set(profile.id, new User(profile)); process.nextTick(() => done(null, profile.id)); })
-        );
-
-        this.use(session({ secret: "typicalbot", resave: false, saveUninitialized: false }));
-        this.use(passport.initialize());
-        this.use(passport.session());
-        this.use(bodyParser.json());
-
-        this.engine("html", require("ejs").renderFile);
-        this.set("view engine", "html");
-
-        function isAuthenticated(req, res, next) { if (req.isAuthenticated()) return next(); res.redirect("/auth/login"); }
-        function isStaff(user) {
-            request.get(`${this.config.api}/users/${user.id}`).then(res => {
-                const data = res.body;
-                return !!data.staff;
-            }).catch(err => { return false; });
-        }
-
-        /*
-                                                           - - - - - - - - - -
-
-                                                                AUTHENTICATION
-
-                                                           - - - - - - - - - -
-        */
-
-        this.get("/auth/login", (req, res, next) => {
-            if (req.session.backURL) {
-                req.session.backURL = req.session.backURL;
-            } else if (req.headers.referer) {
-                const parsed = url.parse(req.headers.referer);
-                if (parsed.hostname === this.locals.domain) {
-                    req.session.backURL = parsed.path;
-                }
-            } else {
-                req.session.backURL = '/';
-            }
-            next();
-        }, passport.authenticate("discord"));
-
-        this.get("/auth/callback", passport.authenticate("discord", {
-            failureRedirect: `/auth/access-denied`
-        }), (req, res) => {
-            if (req.session.backURL) {
-                res.redirect(req.session.backURL);
-                req.session.backURL = null;
-            } else {
-                res.redirect("/");
-            }
-        });
-
-        this.get("/auth/logout", function(req, res) {
-            req.logout();
-            res.redirect("/");
-        });
-
-        this.get("/auth/access-denied", (req, res) => {
-            res.render(template("403.ejs"), {
-                user: req.user || null,
-                auth: req.isAuthenticated()
-            });
-        });
-
-        /*
-                                                           - - - - - - - - - -
-
-                                                                MAIN templateS
-
-                                                           - - - - - - - - - -
-        */
-
-        this.checkGuild = async function(guild, user) {
-            try {
-                const res = await request.get(`${this.config.api}/guilds/${guild.id}`).set("Authorization", this.config.apitoken);
-            } catch (err) {
-                guild.isMember = false;
-                if (new Discord.Permissions(guild.permissions).has("MANAGE_GUILD")) return guild;
-            }
-
-            try {
-                const res = await request.get(`${this.config.api}/guilds/${guild.id}/users/${user.id}`).set("Authorization", this.config.apitoken);
-                guild.isMember = true;
-                if (res.body.permissions.level >= 2) return guild;
-            } catch (err) { return undefined; }
-
-            return undefined;
-        };
-
-        this.fetchUserData = async function(user) {
-            const guilds = user.guilds;
-
-            const data = (await Promise.all(guilds.map(g => this.checkGuild(g, user)))).filter(i => i);
-
-            return data;
-        };
-
-        this.get("/", async (req, res, next) => {
-            if (!req.isAuthenticated()) return next();
-            if (req.query.guild_id) return res.redirect(`/guilds/${req.query.guild_id}`);
-
-            const userData = await this.fetchUserData(req.user);
-
-            res.render(template("landing/index.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated(),
-                guilds: userData
-            });
-        }, (req, res) => {
-            res.render(template("landing/index.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated()
-            });
-        });
-
-        this.get("/documentation", async (req, res, next) => {
-            if (!req.isAuthenticated()) return next();
-
-            const userData = await this.fetchUserData(req.user);
-
-            res.render(template("landing/documentation.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated(),
-                guilds: userData
-            });
-        }, (req, res) => {
-            res.render(template("landing/documentation.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated()
-            });
-        });
-
-        this.get("/user", isAuthenticated, async (req, res) => {
-            const userData = await this.fetchUserData(req.user);
-
-            res.render(template("landing/user.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated(),
-                guilds: userData
-            });
-        });
-
-        this.get("/guilds", isAuthenticated, async (req, res) => {
-            const userData = await this.fetchUserData(req.user);
-
-            res.render(template("landing/guilds.ejs"), {
-                user: req.user,
-                auth: req.isAuthenticated(),
-                guilds: userData
-            });
-        });
-
-        this.get("/guilds/:guild", isAuthenticated, async (req, res) => {
-            const guild = req.params.guild;
-
-            const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
-            if (!userInGuild) return res.redirect("/auth/access-denied");
-
-            const userData = await this.fetchUserData(req.user);
-
-            request.get(`${this.config.api}/guilds/${guild}`).set("Authorization", this.config.apitoken).then(guildData => {
-                request.get(`${this.config.api}/guilds/${guild}/users/${req.user.id}`).set("Authorization", this.config.apitoken).then(dataUser => {
-                    if (dataUser.body.permissions.level < 2) return res.redirect("/auth/access-denied");
-
-                    res.render(template("landing/guild/guild.ejs"), {
-                        user: req.user,
-                        auth: req.isAuthenticated(),
-                        guilds: userData,
-                        guild: guildData.body.guild
-                    });
-                }).catch(console.error);
-            }).catch(err => {
-                const userPerms = new Discord.Permissions(userInGuild.permissions);
-                if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
-
-                res.redirect(`${this.invite}&guild_id=${guild}`);
-            });
-        });
-
-        this.get("/guilds/:guild/leave", isAuthenticated, async (req, res) => {
-            const guild = req.params.guild;
-
-            const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
-            if (!userInGuild) return res.redirect("/auth/access-denied");
-
-            const userData = await this.fetchUserData(req.user);
-
-            request.get(`${this.config.api}/guilds/${guild}`).set("Authorization", this.config.apitoken).then(guildData => {
-                request.get(`${this.config.api}/guilds/${guild}/users/${req.user.id}`).set("Authorization", this.config.apitoken).then(dataUser => {
-                    if (dataUser.body.permissions.level < 2) return res.redirect("/auth/access-denied");
-
-                    request.post(`${this.config.api}/guilds/${guild}/leave`).set("Authorization", this.config.apitoken).then(() => {
-                        res.redirect("/");
-                    }).catch(err => {
-                        res.redirect("/auth/access-denied");
-                    });
-                }).catch(console.error);
-            }).catch(err => {
-                const userPerms = new Discord.Permissions(userInGuild.permissions);
-                if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
-
-                res.redirect(`${this.invite}&guild_id=${guild}`);
-            });
-        });
-
-        this.get("/guilds/:guild/settings", isAuthenticated, async (req, res) => {
-            const guild = req.params.guild;
-
-            const userInGuild = req.user.guilds.filter(g => g.id === guild)[0];
-            if (!userInGuild) return res.redirect("/auth/access-denied");
-
-            const userData = await this.fetchUserData(req.user);
-
-            request.get(`${this.config.api}/guilds/${guild}`).set("Authorization", this.config.apitoken).then(guildData => {
-                request.get(`${this.config.api}/guilds/${guild}/users/${req.user.id}`).set("Authorization", this.config.apitoken).then(dataUser => {
-                    if (dataUser.body.permissions.level < 2) return res.redirect("/auth/access-denied");
-
-                    res.render(template("landing/guild/settings.ejs"), {
-                        user: req.user,
-                        auth: req.isAuthenticated(),
-                        guilds: userData,
-                        guild: guildData.body.guild
-                    });
-                }).catch(console.error);
-            }).catch(err => {
-                const userPerms = new Discord.Permissions(userInGuild.permissions);
-                if (!userPerms.has("MANAGE_GUILD")) return res.status(403).json({ "message": "You do not have permissions to add the bot to that guild." });
-
-                res.redirect(`${this.invite}&guild_id=${guild}`);
-            });
-        });
-
-        this.get("/donate", (req, res) => {
-            res.redirect(`https://typicalbot.com/donate/`);
-        });
-
-        this.get("/join-us", (req, res) => {
-            res.redirect(`https://discordapp.com/invite/typicalbot`);
-        });
-
-        this.get("/invite", (req, res) => {
-            res.redirect(`https://discordapp.com/oauth2/authorize?client_id=166527505610702848&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
-        });
-
-        this.get("/invite/:bot", (req, res) => {
-            const bot = req.params.bot;
-
-            if (bot === "stable") {
-                res.redirect(`https://discordapp.com/oauth2/authorize?client_id=212016587358601216&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
-            } else if (bot === "beta") {
-                res.redirect(`https://discordapp.com/oauth2/authorize?client_id=212016587358601216&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
-            } else if (bot === "development") {
-                res.redirect(`https://discordapp.com/oauth2/authorize?client_id=293920118172418048&permissions=8&scope=bot&redirect_uri=${this.config.bot_redirectUri}&response_type=code`);
-            } else if (bot === "hypercast") {
-                res.redirect("https://discordapp.com/oauth2/authorize?client_id=264207339068981251&permissions=8&scope=bot");
-            } else if (bot === "mrgiveaway") {
-                res.redirect("https://discordapp.com/oauth2/authorize?client_id=343799790724841483&scope=bot&permissions=388160");
-            } else {
-                res.status(404).render(template("404.ejs"), { user: req.user, auth: req.isAuthenticated() });
-            }
-        });
-
-        this.get("/thanks", (req, res) => {
-            res.redirect(`/`);
-        });
-
-
-
-        /*
-                                                           - - - - - - - - - -
-
-                                                                API
-
-                                                           - - - - - - - - - -
-        */
-
-        this.use("/api", new APIRouter(this));
-
-        /*
-                                                           - - - - - - - - - -
-
-                                                                PROFILE
-
-                                                           - - - - - - - - - -
-        */
-
-        this.get("/user/theme/light", (req, res) => {
-            req.user.lightTheme = true;
-            res.redirect(req.headers.referer || "/");
-        });
-
-        this.get("/user/theme/dark", (req, res) => {
-            req.user.lightTheme = false;
-            res.redirect(req.headers.referer || "/");
-        });
-
-        /*
-                                                           - - - - - - - - - -
-
-                                                                INIT EXPRESS
-
-                                                           - - - - - - - - - -
-        */
-
-        this.use(express.static(`${__dirname}/content/static`));
-        this.use((req, res) => res.status(404).render(template("404.ejs"), { user: req.user, auth: req.isAuthenticated() }));
-
-        this.listen(this.config.port, () => console.log(`Express Server Created | Listening on Port :${this.config.port}`));
+const express = require("express");
+const session = require("express-session");
+const passport = require("passport");
+const { Strategy } = require("passport-discord");
+
+const { Collection } = require("discord.js");
+const request = require("snekfetch");
+
+const path = require("path");
+const fs = require("fs");
+
+const template = require(`${process.cwd()}/functions/template`);
+
+const config = require("./config");
+const tokens = require("./tokens");
+
+const users = new Collection();
+
+const app = express();
+
+passport.serializeUser((id, done) => { done(null, id); });
+passport.deserializeUser((id, done) => { done(null, users.get(id)); });
+
+passport.use(
+    new Strategy({ clientID: config.clientID, clientSecret: config.clientSecret, callbackURL: config.redirectUri, scope: ["identify", "guilds"] },
+        (accessToken, refreshToken, profile, done) => { users.set(profile.id, new User(profile)); process.nextTick(() => done(null, profile.id)); })
+);
+
+app.use(session({ secret: "typicalbot", resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.engine("html", require("ejs").renderFile);
+app.set("view engine", "html");
+
+app.use((req, res, next) => {
+    if (/\/(?:auth|x|config)/.test(req.path)) return next();
+    
+    req.session.backURL = req.path;
+    next();
+});
+
+fs.readdirSync("./routes")
+    .forEach(route => app.use(require(`./routes/${route}`)));
+
+app.use(express.static(`${__dirname}/content/static`));
+app.use((req, res) => res.status(404).render(template("404.ejs"), { user: req.user, auth: req.isAuthenticated() }));
+
+app.listen(config.port, () => console.log(`Express Server Created | Listening on Port :${config.port}`));
+
+class User {
+    constructor(profile) {
+        this.id = profile.id;
+        this.username = profile.username;
+        this.discriminator = profile.discriminator;
+        this.avatarURL = profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null;
+        this.guilds = profile.guilds;
+
+        this.staff = false;
+
+        this.lightTheme = true;
+
+        this.apitoken = tokens[profile.id] ? tokens[profile.id].token : null;
+
+        this.fetchLevel();
     }
-};
+
+    fetchLevel() {
+        request
+            .get(`${config.api}/guilds/163038706117115906/users/${this.id}`).set("Authentication", config.apitoken)
+            .then(data => {
+                this.staff = data.body.permissions.level >= 8;
+            }).catch(err => {
+                this.staff = false;
+            });
+    }
+}

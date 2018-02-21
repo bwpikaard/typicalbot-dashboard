@@ -6,12 +6,13 @@
         "express": "^4.15.2",
         "express-session": "^1.15.2",
         "fs-nextra": "^0.3.2",
+        "nodemon": "^1.15.1",
         "passport": "^0.3.2",
         "passport-discord": "^0.1.2",
         "snekfetch": "^3.6.1",
         "superagent": "^3.8.2"
     },
     "scripts": {
-        "docs": "apidoc --debug false -i ./ -o content/static/api -e node_modules/ -e content/ -t content/api-doc-template"
+        "docs": "apidoc --debug false -i ./ -o content/static/api -e node_modules/ -e content/ -t content/templates/documentation"
     }
 }
