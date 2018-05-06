@@ -3,3 +3,4 @@ tokens.json
 node_modules/*
 start.bat
 $RECYCLE.BIN
+package-lock.json
