@@ -21,3 +21,7 @@ router.get("/", (req, res, next) => {
         guilds: userData
     });
 });
+
+router.get('/v2', (req, res, next) => {
+    res.render(template('v2/index.ejs'));
+});
